@@ -1,9 +1,14 @@
-from flask import *
+from flask import Flask, render_template, Blueprint, jsonify
+from route.attraction import api_attraction
+
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
+app.config['JSONIFY_MIMETYPE'] ="application/json;charset=utf-8"
 
-# Pages
+
+app.register_blueprint(api_attraction, url_prefix="/api") 
+
 @app.route("/")
 def index():
 	return render_template("index.html")
@@ -17,4 +22,6 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
-app.run(port=3000)
+if __name__ =='__main__':
+	app.debug = True
+	app.run(port=3000)
