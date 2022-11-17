@@ -6,7 +6,6 @@ app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config['JSONIFY_MIMETYPE'] ="application/json;charset=utf-8"
 
-
 app.register_blueprint(api_attraction, url_prefix="/api") 
 
 @app.route("/")
@@ -23,5 +22,4 @@ def thankyou():
 	return render_template("thankyou.html")
 
 if __name__ =='__main__':
-	app.debug = True
-	app.run(port=3000)
+	app.run(host="0.0.0.0", port=3000)
