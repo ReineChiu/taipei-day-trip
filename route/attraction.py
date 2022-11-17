@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 import sys
-sys.path.append("modules") 
+sys.path.append("modules")
 import serect
 from mysql.connector import Error
 from mysql.connector import pooling
@@ -53,14 +53,10 @@ def attractions():
             select = ('''SELECT * FROM attraction 
                     WHERE name REGEXP %s 
                     or category REGEXP %s
-                    or address REGEXP %s
-                    or mrt REGEXP %s
-                    or direction REGEXP %s
-                    or description REGEXP %s
                     LIMIT %s, %s''')
             value = [keyword, keyword, keyword, keyword, keyword, keyword, start, amount]
             cursor.execute(select, value)
-            results = cursor.fetchall()
+            results = cursor.fetchall() 
             if results:
                 for result in results:
                     columns = [col[0] for col in cursor.description]
@@ -77,9 +73,9 @@ def attractions():
     finally:
         cursor.close()
         connection_object.close()
- 
+
 @api_attraction.route("/attraction/<int:id>", methods=["GET"])
-def attraction(id): 
+def attraction(id) 
     try:
         connection_object = connection_pool.get_connection()
         cursor = connection_object.cursor()
