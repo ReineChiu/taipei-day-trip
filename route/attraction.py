@@ -56,7 +56,7 @@ def attractions():
                     LIMIT %s, %s''')
             value = [keyword, keyword, keyword, keyword, keyword, keyword, start, amount]
             cursor.execute(select, value)
-            results = cursor.fetchall() 
+            results = cursor.fetchall()
             if results:
                 for result in results:
                     columns = [col[0] for col in cursor.description]
@@ -73,9 +73,9 @@ def attractions():
     finally:
         cursor.close()
         connection_object.close()
-
+    
 @api_attraction.route("/attraction/<int:id>", methods=["GET"])
-def attraction(id) 
+def attraction(id):  
     try:
         connection_object = connection_pool.get_connection()
         cursor = connection_object.cursor()
