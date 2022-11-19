@@ -54,7 +54,7 @@ def attractions():
                     WHERE name REGEXP %s 
                     or category REGEXP %s
                     LIMIT %s, %s''')
-            value = [keyword, keyword, keyword, keyword, keyword, keyword, start, amount]
+            value = [keyword, keyword, start, amount]
             cursor.execute(select, value)
             results = cursor.fetchall()
             if results:
