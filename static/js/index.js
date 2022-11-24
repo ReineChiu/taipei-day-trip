@@ -4,6 +4,7 @@ let keyword = "";
 let loadFetching = false;
 
 const getAttractionsData = async () =>{
+    let loadFetching = true;
     let apiUrl = "";
     if(keyword){
         apiUrl = `/api/attractions?page=${page}&keyword=${keyword}`;
@@ -21,6 +22,7 @@ const getAttractionsData = async () =>{
         const mainContent = document.querySelector(".main-content");
         const attractions = data["data"];
         for (let att of attractions){
+            // box
             const containAtt = document.createElement("div");
             containAtt.setAttribute("class","attraction") 
             //圖片層
@@ -105,7 +107,6 @@ fetch(`/api/categories`).then((response) =>{
         cate.textContent = cat;
         menu.appendChild(cate);
     }
-
     let show = document.querySelector(".search")
     const menu = document.querySelector(".menu-box");
 
@@ -120,12 +121,15 @@ fetch(`/api/categories`).then((response) =>{
         event.stopPropagation();
     })
 
-    const el = document.querySelector(".menu-box");
+    const el = document.getElementsByClassName("cate");
     const input = document.querySelector(".search");
-    el.addEventListener("click", function(e){
-        input.value = e.target.textContent;
-        menu.style.display = "none";
-    })  
+    for (let i=0; i<el.length; i++){
+        el[i].addEventListener("click", function(e){
+            console.log(e.target)
+            input.value = e.target.textContent;
+            menu.style.display = "none";
+        })
+    }
 })
 
 
