@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Taipei Trip 臺北一日遊2.0{% endblock %}
+
+{% block static %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+<script derf src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="navigation">
+    <div class="head">
+        <div class="head-text">臺北一日遊</div>
+        <div class="head-button">
+            <button class="button">預定行程</button>
+            <button class="button">登入/註冊</button>
+        </div>
+    </div>
+</div>
+<div class="present">
+    <div class="slogan">
+        <div class="slogan-text">輕鬆享受臺北一日悠閒</div>
+        <div>探索每個角落，體驗城市的深度旅遊行程</div>
+        <div class="slogan-bar">
+            <input type="text" 
+                class="search"
+                placeholder="輸入景點名稱查詢">
+            <button class="search-button" onclick="searchKeyword();">
+                <img class="search-image" src="{{ url_for('static', filename='image/icon_search.png') }}">
+            </button>
+        </div>
+        <div class="menu-box"></div>
+    </div>
+    <img class="present-image" src="{{ url_for('static', filename='image/welcome.png') }}" alt="臺北101">
+</div>
+<div class="main-content"></div>
+<div class="footer">
+    <div class="footer-text">COPYRIGHT © 2021 臺北一日遊</div>
+</div>
+
+{% endblock %}
