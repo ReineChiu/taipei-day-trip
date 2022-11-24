@@ -1,6 +1,7 @@
 import sys
-sys.path.append("modules") 
-import serect
+sys.path.append("..")
+from modules import serect
+
 import mysql.connector
 import json
 
@@ -13,8 +14,9 @@ connection = mysql.connector.connect(
         charset = "utf8"
 )
 cursor = connection.cursor()
+
 cursor.execute("""
-            CREATE TABLE attraction(
+            CREATE TABLE IF NOT EXISTS attraction(
             id INT PRIMARY KEY AUTO_INCREMENT,
             trip_id INT NOT NULL,
             name VARCHAR(255) NOT NULL,
@@ -25,7 +27,7 @@ cursor.execute("""
             description TEXT NOT NULL,
             latitude FLOAT NOT NULL,
             longitude FLOAT NOT NULL,
-            images text NOT NULL);
+            images TEXT NOT NULL);
             """)
 connection.commit()
 
@@ -34,14 +36,14 @@ with open("taipei-attractions.json", mode="r", encoding="utf-8") as response:
     results = data_dict["result"]["results"]
 
     for material in results:
-        trip_id = material["_id"] 
+        trip_id = material["_id"]
         name = material["name"]
         category = material["CAT"]
         address = material["address"]
         mrt = material["MRT"]
         direction = material["direction"]
         description = material["description"]
-        latitude = float(material["latitude"]) 
+        latitude = float(material["latitude"])
         longitude = float(material["longitude"])
 
         image = material["file"].split("http")[1:]
