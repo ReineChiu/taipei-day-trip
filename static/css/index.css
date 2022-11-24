@@ -18,7 +18,7 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 62.5%;
+    width: 1200px;
     height: 34px;
     margin: 10px 0 10px 10px; 
 }
@@ -56,7 +56,7 @@ body{
 .slogan{
     position: absolute;
     z-index:1;
-    width: 62.5%;
+    width: 1200px;
     display: block;
     justify-content: center;
     align-items: center;
@@ -202,6 +202,12 @@ input[type=text]{
 @media (max-width:1200px){
     .main-content{
         grid-template-columns: repeat(2, 45%);
+    }
+    .head{
+        width: 93%;
+    }
+    .slogan{
+        width: 93%;
     }
 }
 @media (max-width:600px){
