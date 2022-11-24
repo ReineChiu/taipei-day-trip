@@ -18,13 +18,12 @@ const getAttractionsData = async () =>{
     }
     
     if (data["data"]){
+        const mainContent = document.querySelector(".main-content");
         const attractions = data["data"];
         for (let att of attractions){
-            const mainContent = document.querySelector(".main-content");
-            // 全部
             const containAtt = document.createElement("div");
             containAtt.setAttribute("class","attraction") 
-            // 圖片層
+            //圖片層
             const containImg = document.createElement("div");
             containImg.setAttribute("class","image-content");
             const img = document.createElement("img");
@@ -51,8 +50,9 @@ const getAttractionsData = async () =>{
             containAtt.appendChild(info);
             mainContent.appendChild(containAtt);
         }
-    }
+    }   
 }
+
 // ============= searchbar ============== //
 function searchKeyword(){
     keyword = document.querySelector(".search").value;
@@ -74,7 +74,7 @@ function loadNextPage(){
     }
     const scrollTop = window.pageYOffset; 
     const clientHeight = document.documentElement.clientHeight; 
-    const scrollHeight = document.documentElement.scrollHeight;  
+    const scrollHeight = document.documentElement.scrollHeight; 
     if(scrollTop + clientHeight > scrollHeight - 200){
         page++; 
         getAttractionsData();
@@ -90,7 +90,7 @@ function debounce(fn, wait=200){
 }
 // 設置監聽
 window.addEventListener("scroll", debounce(loadNextPage))
-
+// 呼叫第一頁(page=0)
 getAttractionsData();
 
 // ========     drop down menu    ========= //
@@ -105,6 +105,7 @@ fetch(`/api/categories`).then((response) =>{
         cate.textContent = cat;
         menu.appendChild(cate);
     }
+
     let show = document.querySelector(".search")
     const menu = document.querySelector(".menu-box");
 
@@ -118,11 +119,12 @@ fetch(`/api/categories`).then((response) =>{
     menu.addEventListener("click",function(event){
         event.stopPropagation();
     })
-    // 選景點分類
+
     const el = document.querySelector(".menu-box");
     const input = document.querySelector(".search");
     el.addEventListener("click", function(e){
-        input.value = e.target.textContent
+        input.value = e.target.textContent;
+        menu.style.display = "none";
     })  
 })
 
