@@ -63,7 +63,7 @@ section {
     width: 540px;
     height: 400px;
     margin-left:15px;
-    overflow: hidden; 
+    overflow: hidden;  
 }
 .image{
     width: 540px;
@@ -148,6 +148,7 @@ li{
 }
 .title{
     font-weight: 700;
+    height: 32px;
 }
 .ill{
     margin-top: 15px;
