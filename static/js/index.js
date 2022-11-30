@@ -1,10 +1,12 @@
 
 let page = 0;
 let keyword = "";
-let loadFetching = false;
+let isLoading = false;
+const mainContent = document.querySelector(".main-content");
+let nextpage = 0;
 
 const getAttractionsData = async () =>{
-    let loadFetching = true;
+    isLoading = true;
     let apiUrl = "";
     if(keyword){
         apiUrl = `/api/attractions?page=${page}&keyword=${keyword}`;
@@ -13,18 +15,14 @@ const getAttractionsData = async () =>{
     }   
     const result = await fetch(apiUrl);
     const data = await result.json();
-    nextpage = data["nextpage"];
-    if (nextpage === null){ 
-        loadFetching = true;
-    }
-    
-    if (data["data"]){
-        const mainContent = document.querySelector(".main-content");
+
+    if (data["data"].length !== 0){
         const attractions = data["data"];
         for (let att of attractions){
             // box
-            const containAtt = document.createElement("div");
-            containAtt.setAttribute("class","attraction") 
+            const containAtt = document.createElement("a");
+            containAtt.setAttribute("class","attraction");
+            containAtt.href = `/attraction/${att.id}`
             //圖片層
             const containImg = document.createElement("div");
             containImg.setAttribute("class","image-content");
@@ -52,7 +50,11 @@ const getAttractionsData = async () =>{
             containAtt.appendChild(info);
             mainContent.appendChild(containAtt);
         }
-    }   
+    }else{
+        mainContent.textContent = `查無該關鍵字 -${keyword}- 的資料！`; 
+    }
+    nextpage = data["nextpage"];
+    isLoading = false;
 }
 
 // ============= searchbar ============== //
@@ -64,26 +66,22 @@ function searchKeyword(){
         node.removeChild(node.firstChild);
     }   
     getAttractionsData()
-        .catch(() => {
-            const mainContent = document.querySelector(".main-content"); 
-            mainContent.textContent = `查無該關鍵字 [${keyword}] 的資料！`;
-        })
 }
 // =========== fetch 下一頁 ============= //
 function loadNextPage(){
-    if(loadFetching){
+    if(nextpage === null || isLoading === true){
         return
     }
     const scrollTop = window.pageYOffset; 
     const clientHeight = document.documentElement.clientHeight; 
     const scrollHeight = document.documentElement.scrollHeight; 
     if(scrollTop + clientHeight > scrollHeight - 200){
-        page++; 
+        page = nextpage; 
         getAttractionsData();
     }
 }
 // 延遲
-function debounce(fn, wait=200){
+function debounce(fn, wait=100){
     let timeout = null;
     return function(){
         if (timeout !== null) clearTimeout(timeout);
@@ -95,20 +93,20 @@ window.addEventListener("scroll", debounce(loadNextPage))
 // 呼叫第一頁(page=0)
 getAttractionsData();
 
-// ========     drop down menu    ========= //
+//============================== //
 fetch(`/api/categories`).then((response) =>{
     return response.json();
 }).then((data) =>{
     const cats = data["data"];
     for (let cat of cats){
-        const menu = document.querySelector(".menu-box");
+        const menu = document.querySelector(".category-box");
         const cate = document.createElement("div");
         cate.setAttribute("class","cate")
         cate.textContent = cat;
         menu.appendChild(cate);
     }
     let show = document.querySelector(".search")
-    const menu = document.querySelector(".menu-box");
+    const menu = document.querySelector(".category-box");
 
     show.addEventListener("click",function(event){
         menu.style.display = "block";
@@ -120,18 +118,14 @@ fetch(`/api/categories`).then((response) =>{
     menu.addEventListener("click",function(event){
         event.stopPropagation();
     })
-
+    // ====================================== //
     const el = document.getElementsByClassName("cate");
     const input = document.querySelector(".search");
     for (let i=0; i<el.length; i++){
         el[i].addEventListener("click", function(e){
-            console.log(e.target)
             input.value = e.target.textContent;
             menu.style.display = "none";
         })
     }
 })
-
-
-
 

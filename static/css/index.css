@@ -39,6 +39,19 @@ body{
     background-color: #FFFFFF;
     margin: 10px;
 }
+.dialog{
+    position: fixed;
+    z-index:2;
+    top: 80px;
+    left: 50%;
+    transform: translate(-170px);
+    display: none;
+    justify-content: center;
+    width: 340px;
+    height: 275px;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+}
 .present{
     display: flex;
     justify-content: center;
@@ -46,7 +59,7 @@ body{
     height: 320px;
 }
 .present-image{
-    position: relative;
+    position: absolute;
     z-index:0;
     width: 100%;
     height: 320px;
@@ -86,11 +99,12 @@ input[type=text]{
     border-style:none;
     margin: 0;
 }
-.menu-box{
+.category-box{
     display: none;
     width: 380px;
     height: 100px;
-    margin-top: 75px;
+    position: relative;
+    top: 75px;
     padding: 10px;
     border-radius: 6px;
     border: 1px solid #a9a9a9;
@@ -117,7 +131,8 @@ input[type=text]{
     height: 46px;
     border: none;
     border-radius: 0 6px 6px 0; 
-    background-color: rgb(68, 136, 153);
+    background-color: #448899;
+    cursor: pointer;
 }
 .search-image{    
     width: 30px;
@@ -141,6 +156,10 @@ input[type=text]{
 .attraction{
     border: 1px solid #a9a9a9;
     border-radius: 5px;
+    text-decoration:none; 
+}
+.attraction:hover{
+    opacity: 0.8;
 }
 .image-content{
     position: relative;
@@ -158,7 +177,7 @@ input[type=text]{
     z-index:1;
     bottom:0px;
     width: calc(100% - 20px);
-    font-size: 15px;
+    font-size: 16px;
     padding: 10px;
     color:#FFFFFF;
     background: rgba(0, 0, 0, 0.6);
@@ -220,7 +239,7 @@ input[type=text]{
     input[type=text]{
         width: 230px;
     }
-    .menu-box{
+    .category-box{
         width: 230px;
         height: 200px;
     }
