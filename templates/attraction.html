@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Taipei Trip 臺北一日遊2.0{% endblock %}
+
+{% block static %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/attraction.css') }}">
+{% endblock %}
+
+{% block content %}
+<nav class="navigation">
+    <div class="head">
+        <div class="head-text">臺北一日遊</div>
+        <div class="head-button">
+            <button class="button">預定行程</button>
+            <button class="button">登入/註冊</button>
+        </div>
+    </div>
+</nav>
+<section>
+    <div class="introduce">
+        <div class="images">
+            <div class="img-container"></div>
+            <img class="left-arrow" id="left-arrow" src="{{ url_for('static', filename='image/btn_leftArrow.png') }}">
+            <img class="right-arrow" id="right-arrow" src="{{ url_for('static', filename='image/btn_rightArrow.png') }}">
+            <ul class="circle"></ul>
+        </div>
+        <div class="profile">
+            <div class="name-catmrt"></div>
+            <div class="order-box">
+                <div class="illustrate">
+                    <div class="title">訂購導覽行程</div>
+                    <div class="ill">以此景點為中心的一日行程，帶您探索城市角落故事</div>
+                </div>
+                <div class="bar">
+                    <label for="start" class="title">選擇日期：</label>
+                    <span class="date" id="start">
+                        <input type="date" value="yyyy-mm-dd" min="2022-11-30">
+                    </span>
+                </div>
+                <div class="time" id="time">
+                    <label class="title">選擇時間：</label>
+                    <input type="radio" name="time" id="morning" value="morning" checked>
+                    <label for="morning">上半天</label>
+                    <input type="radio" name="time" id="afternoon" value="afternoon">
+                    <label for="afternoon">下半天</label>
+                </div>
+                <div class="guide">
+                    <label class="title">導覽費用：</label><br>
+                    <span> 新台幣<span class="price">2000元</span></span>
+                </div>
+                <button class="submit" type="submit">開始預約行程</button>
+            </div>
+        </div>
+    </div>
+</section>
+<hr>
+<section>
+    <div class="intros">
+        <div class="intro"></div>
+        <div class="infors">
+            <div class="address">
+                <div class="title">景點地址：</div>
+            </div>
+            <div class="direction">
+                <div class="title">交通方式：</div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="footer">
+    <div class="footer-text">COPYRIGHT © 2022 臺北一日遊</div>
+</footer>
+
+<script derf src="{{ url_for('static', filename='js/attraction.js') }}"></script>
+
+{% endblock %}
