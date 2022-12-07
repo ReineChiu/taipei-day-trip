@@ -2,6 +2,7 @@ body {
     font-family:'Noto Sans TC','Microsoft JhengHei'; 
     margin: 0;
 }
+
 section {
     display: flex;
     justify-content: center;
@@ -126,7 +127,7 @@ li{
 input[type=date]{
     width: 150px;
     padding: 7px 10px;
-    border: none;
+    border: none; 
 }
 .calendar-icon{
     width:24px;
