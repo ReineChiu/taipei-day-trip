@@ -1,19 +1,21 @@
-import sys
-sys.path.append("modules")
-import serect
 from mysql.connector import Error
 from mysql.connector import pooling
 import mysql.connector
 import json
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 connection_pool = pooling.MySQLConnectionPool(pool_name = "pynative_pool",
                                               pool_size = 5,
-                                              host = "localhost",
-                                              database = "website",
                                               user = "root",
-                                              password = serect.MySQLPassword(),
+                                              host = os.getenv("HOST"),
+                                              database = os.getenv("DATABASE"),  
+                                              password = os.getenv("PASSWORD"),#serect.MySQLPassword(),
                                               charset = "utf8")
 
+# ----------------- attraction 景點資料表---------------------- #
 def get_attractions(page,keyword):
     try:
         start = page * 12
@@ -90,6 +92,56 @@ def category_list():
         return cat_list
     except Exception as e:
         print(f"{e}:搜尋景點分類失敗")
+        return None
+    finally:
+        cursor.close()
+        connection_object.close()
+
+# ----------------- user 用戶資料表---------------------- #
+def select_user(**kwargs):
+    try:
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor()
+        select = ("select * from user where ")
+        for key in kwargs:
+            select = select + f"{key}= '{kwargs[key]}' and "
+        select = select[:-5]
+        cursor.execute(select)
+        account = cursor.fetchone()
+        if account:
+            columns = [col[0] for col in cursor.description]
+            data = dict(zip(columns, account))
+            return data
+        else:
+            print("查無資料")
+            return None
+    except Exception as e:
+        print(f"{e}:註冊失敗")
+        return None
+    finally:
+        cursor.close()
+        connection_object.close()       
+
+def inser_user(**kwargs):
+    try:
+        insert_col = ""
+        insert_val = ""
+        for key in kwargs:
+            insert_col = insert_col + f"{key}, "
+            insert_val = insert_val + f"'{kwargs[key]}', "
+        insert_col = insert_col[:-2]
+        insert_val = insert_val[:-2]
+
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor()
+        insert = f"""
+                insert into user({insert_col})
+                value({insert_val})
+                """
+        cursor.execute(insert)
+        connection_object.commit()
+    except Exception as e:
+        print(f"{e}:註冊資料失敗")
         return None
     finally:
         cursor.close()
