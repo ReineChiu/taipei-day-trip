@@ -72,7 +72,7 @@ def loginin():
             token = jwt.encode({"id":user["id"],
                                 "name":user["name"],
                                 "email":user["email"], 
-                                "exp":datetime.datetime.utcnow()+datetime.timedelta(minutes=1)},
+                                "exp":datetime.datetime.utcnow()+datetime.timedelta(days=7)},
                                 os.getenv("JWT_SERECT_KEY"))
             print(token)
             response = make_response({"ok":True},200)
