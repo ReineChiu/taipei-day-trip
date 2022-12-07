@@ -1,27 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Taipei Trip 臺北一日遊2.0{% endblock %}
+{% block title %}{% endblock %}
 
 {% block static %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/attraction.css') }}">
 {% endblock %}
 
 {% block content %}
-<nav class="navigation">
-    <div class="head">
-        <div class="head-text">臺北一日遊</div>
-        <div class="head-button">
-            <button class="button">預定行程</button>
-            <button class="button">登入/註冊</button>
-        </div>
-    </div>
-</nav>
 <section>
     <div class="introduce">
         <div class="images">
-            <div class="img-container"></div>
-            <img class="left-arrow" id="left-arrow" src="{{ url_for('static', filename='image/btn_leftArrow.png') }}">
-            <img class="right-arrow" id="right-arrow" src="{{ url_for('static', filename='image/btn_rightArrow.png') }}">
+            <div class="arrow">
+                <img class="left-arrow" id="left-arrow" src="{{ url_for('static', filename='image/btn_leftArrow.png') }}">
+                <img class="right-arrow" id="right-arrow" src="{{ url_for('static', filename='image/btn_rightArrow.png') }}">
+            </div>
             <ul class="circle"></ul>
         </div>
         <div class="profile">
@@ -67,10 +59,6 @@
         </div>
     </div>
 </section>
-<footer class="footer">
-    <div class="footer-text">COPYRIGHT © 2022 臺北一日遊</div>
-</footer>
-
 <script derf src="{{ url_for('static', filename='js/attraction.js') }}"></script>
 
 {% endblock %}
