@@ -5,7 +5,7 @@ body{
 /*---------------------- 對話框 ---------------------------*/
 .overlay{
     position: fixed;
-    z-index: 30;
+    z-index: 50;
     top: 0;
     left: 0;
     display: none;
@@ -15,12 +15,13 @@ body{
 }
 .dialog{
     position: fixed;
-    z-index:31;
+    z-index:51;
     top: 80px;
     left: 50%;
     transform: translate(-170px);
     display: none;
     width: 340px;
+    /* height: 275px; */
     border-radius: 6px;
     background-color: #FFFFFF;
 }
@@ -177,7 +178,7 @@ body{
     position: sticky;
     top: 0; 
     left: 0;
-    z-index: 5;
+    z-index: 40;
     display: flex;
     justify-content: center;
     align-items: center;

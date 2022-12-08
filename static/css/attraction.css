@@ -2,7 +2,6 @@ body {
     font-family:'Noto Sans TC','Microsoft JhengHei'; 
     margin: 0;
 }
-
 section {
     display: flex;
     justify-content: center;
@@ -25,7 +24,7 @@ section {
 }
 .image{
     position: absolute;
-    z-index: 6;
+    z-index: 30;
     width: 540px;
     height: 400px;
     object-fit: cover;  
@@ -33,7 +32,7 @@ section {
 }
 .left-arrow{
     position: absolute;
-    z-index: 8;
+    z-index: 31;
     top: 182px;
     left: 10px;
     width:36px;
@@ -46,7 +45,7 @@ section {
 }
 .right-arrow{
     position: absolute;
-    z-index: 8;
+    z-index: 31;
     top: 182px;
     right: 10px;
     width:36px;
@@ -59,7 +58,7 @@ section {
 }
 .circle{
     position: absolute;
-    z-index: 8;
+    z-index: 31;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -149,6 +148,7 @@ input[type="radio"] +label{
     margin-right: 10px;
     cursor: pointer;
 }
+
 input[type="radio"]+label:before {
     content: "";
     height: 14px;
@@ -161,6 +161,7 @@ input[type="radio"]+label:before {
     margin-top: 2px;
     margin-left: -25px;
 }
+
 input[type="radio"]:checked+label:before {
     width:14px;
     height:14px;
