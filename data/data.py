@@ -1,18 +1,20 @@
-import sys
-sys.path.append("..")
-from modules import serect
 
 import mysql.connector
 import json
 
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
 connection = mysql.connector.connect(
-        host = "localhost",
-        port = "3306",
+        host = os.getenv("HOST"),
         user = "root",
-        password = serect.MySQLPassword(),
-        database = "website",
+        port = os.getenv("PORT"),
+        password = os.getenv("PASSWORD"),
+        database = os.getenv("DATABASE"),
         charset = "utf8"
 )
+
 cursor = connection.cursor()
 
 cursor.execute("""
@@ -36,7 +38,7 @@ with open("taipei-attractions.json", mode="r", encoding="utf-8") as response:
     results = data_dict["result"]["results"]
 
     for material in results:
-        trip_id = material["_id"]
+        trip_id = material["_id"] 
         name = material["name"]
         category = material["CAT"]
         address = material["address"]

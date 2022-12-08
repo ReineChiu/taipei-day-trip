@@ -8,26 +8,16 @@
 {% endblock %}
 
 {% block content %}
-<nav class="navigation">
-    <div class="head">
-        <div class="head-text">臺北一日遊</div>
-        <div class="head-button">
-            <button class="button">預定行程</button>
-            <button class="button">登入/註冊</button>
-            <div class="dialog">登入會員帳號</div>
-        </div>
-    </div>
-</nav>
 <section class="present">
     <div class="slogan">
         <div class="slogan-text">輕鬆享受臺北一日悠閒</div>
         <div>探索每個角落，體驗城市的深度旅遊行程</div>
         <div class="slogan-bar">
-            <input type="text" 
+            <input type="text"
                 class="search"
                 placeholder="輸入景點名稱查詢">
             <button class="search-button" onclick="searchKeyword();">
-                <img class="search-image" src="{{ url_for('static', filename='image/icon_search.png') }}">
+                <img class="search-image" src="{{ url_for('static', filename='image/icon_search.png') }}" alt="">
             </button>
         </div>
         <div class="category-box"></div>
@@ -37,8 +27,5 @@
 <section class="frame">
     <div class="main-content"></div>
 </section>
-<footer class="footer">
-    <div class="footer-text">COPYRIGHT © 2022 臺北一日遊</div>
-</footer>
 <script derf src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock %}
