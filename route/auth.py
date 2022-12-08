@@ -59,7 +59,7 @@ def loginin():
     if len(email) == 0 or len(password) == 0:
         return ({"error":True, "message": "信箱、密碼不可空白"},400)
 
-    emailRegex = re.match("^[A-za-z0-9_.-]+@[A-Za-z0-9-]+$",email)
+    emailRegex = re.match("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",email)
     passwordRegex = re.match("^(?=.*\d).{6,20}$",password)   
     if not emailRegex or not passwordRegex:
         return ({"error":True, "message": "信箱、密碼輸入資料格式錯誤"},400)
