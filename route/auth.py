@@ -17,7 +17,7 @@ def singup():
             return ({"error":True, "message": "姓名、信箱、密碼不可空白"},400)
 
         nameRegex = re.match("^[A-za-z0-9\u4e00-\u9fa5]*$",name)
-        emailRegex = re.match("^[A-za-z0-9_.-]+@[A-Za-z0-9-]+$",email)
+        emailRegex = re.match("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",email)
         passwordRegex = re.match("^(?=.*\d).{6,20}$",password)
         if not nameRegex or not emailRegex or not passwordRegex:
             return ({"error":True, "message": "姓名、信箱、密碼輸入資料格式錯誤"},400)
