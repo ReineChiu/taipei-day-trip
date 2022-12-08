@@ -21,8 +21,7 @@ afternoon.addEventListener("click",function(){
 });
 
 
-let path = window.location.pathname 
-let apiUrl = `/api`+ path;
+let path = window.location.pathname;
 
 fetch(apiUrl).then((response) =>{
     return response.json();
@@ -46,10 +45,12 @@ fetch(apiUrl).then((response) =>{
     // 點Arrow，切換上下張
     let image = document.querySelectorAll(".image");
     let circleList = document.querySelectorAll("li")
-    circleList[0].className = "current"
+    circleList[0].className = "current" 
     for (let i=0; i<imgeUrls.length; i++){
         if (i != imgeUrls.length-1){
             image[i].style.opacity = 0;
+        }else{
+            image[i].style.opacity = 1;
         }
     }
 
