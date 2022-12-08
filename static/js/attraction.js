@@ -21,7 +21,8 @@ afternoon.addEventListener("click",function(){
 });
 
 
-let path = window.location.pathname;
+let path = window.location.pathname; 
+let apiUrl = `/api`+ path;
 
 fetch(apiUrl).then((response) =>{
     return response.json();
@@ -45,7 +46,7 @@ fetch(apiUrl).then((response) =>{
     // 點Arrow，切換上下張
     let image = document.querySelectorAll(".image");
     let circleList = document.querySelectorAll("li")
-    circleList[0].className = "current" 
+    circleList[0].className = "current"
     for (let i=0; i<imgeUrls.length; i++){
         if (i != imgeUrls.length-1){
             image[i].style.opacity = 0;
@@ -68,15 +69,6 @@ fetch(apiUrl).then((response) =>{
                 image[item].style.transition="opacity 2s"; 
                 image[item].style.opacity = 1; 
             }
-        }
-         //圓點隨圖片改動
-        page--;
-        if (page <0){
-            page = imgeUrls.length- 1;   
-        }
-        for (let i=0; i<imgeUrls.length; i++){ 
-        circleList[i].className = "";          
-        circleList[page].className = "current";
         }
     })
     rightArrow.addEventListener("click",function(){
@@ -101,7 +93,6 @@ fetch(apiUrl).then((response) =>{
             circleList[page].className = "current";   
         }  
     })
-    
     const name = document.createElement("div");
     name.setAttribute("class","name");
     name.textContent = attraction.name;
