@@ -4,15 +4,14 @@ import mysql.connector
 import json
 from dotenv import load_dotenv
 import os
-
 load_dotenv()
 
 connection_pool = pooling.MySQLConnectionPool(pool_name = "pynative_pool",
                                               pool_size = 5,
-                                              user = "root",
                                               host = os.getenv("HOST"),
+                                              user = os.getenv("MYSQL_USER"),                             
                                               database = os.getenv("DATABASE"),  
-                                              password = os.getenv("PASSWORD"),#serect.MySQLPassword(),
+                                              password = os.getenv("PASSWORD"),
                                               charset = "utf8")
 
 # ----------------- attraction 景點資料表---------------------- #
@@ -31,11 +30,11 @@ def get_attractions(page,keyword):
                         LIMIT %s, %s''')
             value = [keyword, keyword, start, amount]
             cursor.execute(select, value)
-            results = cursor.fetchall() 
+            results = cursor.fetchall()
             for result in results:
                 columns = [col[0] for col in cursor.description]
                 data = dict(zip(columns, result))
-                data["images"] = json.loads(data["images"]) 
+                data["images"] = json.loads(data["images"])
                 trip_list.append(data)
             return trip_list
         else:
@@ -46,7 +45,7 @@ def get_attractions(page,keyword):
             for result in results:
                 columns = [col[0] for col in cursor.description]
                 data = dict(zip(columns, result))
-                data["images"] = json.loads(data["images"]) 
+                data["images"] = json.loads(data["images"])
                 trip_list.append(data)
             return trip_list          
     except Exception as e:
@@ -84,7 +83,7 @@ def category_list():
         cursor = connection_object.cursor()
         select =("SELECT DISTINCT category FROM attraction")
         cursor.execute(select)
-        results = cursor.fetchall() 
+        results = cursor.fetchall()
         cat_list = []
         for result in results:
             for cat in result:
