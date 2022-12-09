@@ -7,7 +7,7 @@ const direction = document.querySelector(".direction");
 
 const leftArrow = document.querySelector(".left-arrow");
 const rightArrow = document.querySelector(".right-arrow");
-let index = 0; 
+let index = 0;
 let circle = document.querySelector(".circle");
 
 const morning = document.getElementById("morning");
@@ -21,7 +21,7 @@ afternoon.addEventListener("click",function(){
 });
 
 
-let path = window.location.pathname; 
+let path = window.location.pathname;
 let apiUrl = `/api`+ path;
 
 fetch(apiUrl).then((response) =>{
@@ -56,7 +56,7 @@ fetch(apiUrl).then((response) =>{
     }
 
     let page = 0; 
-    let item = imgeUrls.length - 1; 
+    let item = imgeUrls.length - 1;
     leftArrow.addEventListener("click",function(){
         item++;
         if (item >imgeUrls.length - 1){
@@ -66,9 +66,16 @@ fetch(apiUrl).then((response) =>{
             if (i !== item){
                 image[i].style.opacity = 0;    
             }else{
-                image[item].style.transition="opacity 2s"; 
                 image[item].style.opacity = 1; 
             }
+        }
+        page--;
+        if (page <0){
+            page = imgeUrls.length- 1;   
+        }
+        for (let i=0; i<imgeUrls.length; i++){ 
+        circleList[i].className = "";          
+        circleList[page].className = "current";
         }
     })
     rightArrow.addEventListener("click",function(){
@@ -78,8 +85,7 @@ fetch(apiUrl).then((response) =>{
         }
         for (i=imgeUrls.length-1; i>-1; i--){
             if (i === item){
-                image[item].style.opacity = 1;
-                image[item].style.transition="opacity 2s";    
+                image[item].style.opacity = 1;    
             }else{
                 image[i].style.opacity = 0;
             }
@@ -93,6 +99,7 @@ fetch(apiUrl).then((response) =>{
             circleList[page].className = "current";   
         }  
     })
+    
     const name = document.createElement("div");
     name.setAttribute("class","name");
     name.textContent = attraction.name;
