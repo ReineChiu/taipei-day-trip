@@ -1,7 +1,8 @@
+// ---------------- 全域變數 -------------------- //
 // 網頁載入時,顯示登入or登出鈕
-const btnLog = document.querySelector(".log-button");
-const btnLogin = document.createElement("button");
-const btnLogout = document.createElement("button");
+const logBtn = document.querySelector(".log-button");
+const btnLogin = document.querySelector(".btn-login");
+const btnLogout = document.querySelector(".btn-logout");
 // 點擊登入/註冊鈕
 const closeButton = document.querySelectorAll(".close-button");
 const dialogSignupButton = document.querySelector(".signup-button");
@@ -24,6 +25,7 @@ const bookingTrip = document.querySelector(".booking");
 const checkUserUrl = '/api/user/auth';
 const userUrl = '/api/user';
 
+// -------------- 網頁載入時 -------------------- //
 window.onload = function() {
     fetch(checkUserUrl,{
         method : "GET",
@@ -33,18 +35,16 @@ window.onload = function() {
             return response.json();
         }).then((data) => {
             if (data.data != null){
-                btnLogout.setAttribute("class","btn-logout");
-                btnLogout.textContent = "登出系統";
-                btnLog.appendChild(btnLogout);
+                btnLogout.style.display = "block";
+                logBtn.style.display = "none";
             }else{
-                btnLogin.setAttribute("class","btn-login");
-                btnLogin.textContent = "登入/註冊";
-                btnLog.appendChild(btnLogin);
+                btnLogin.style.display = "block";
+                logBtn.style.display = "none";
             }
         })
     }
-
-btnLog.addEventListener("click",() => {
+// ---------------- 點擊 登入/註冊 ------------------ //
+btnLogin.addEventListener("click",() => {
     overlay.style.display = "block";
     dialog.style.display = "block";
 });
@@ -63,7 +63,7 @@ dialogLoginButton.addEventListener("click",() => {
     dialogSignupContent.style.display = "none";
 })
 
-
+// ---------------------點擊註冊---------------------------- //
 signup.addEventListener("click",() => {
     const nameValue = document.querySelector(".dialog-signup-name").value;
     const emailValue = document.querySelector(".dialog-signup-email").value;
@@ -85,7 +85,7 @@ signup.addEventListener("click",() => {
             const signMessage = document.createElement("div");
             const tip = document.querySelector(".tip")
             const signsusses = document.querySelector(".signsusses")
-            while (showSign.hasChildNodes()){ 
+            while (showSign.hasChildNodes()){ //檢查node下是否有子元素
                 showSign.removeChild(showSign.firstChild);
             }
             if ("ok" in data){    
@@ -99,6 +99,7 @@ signup.addEventListener("click",() => {
         })
 })
 
+// ---------------------點擊登入---------------------------- //
 loginBtn.addEventListener("click",() => {
     const loginEmail = document.querySelector(".dialog-login-email").value;
     const loginPassword = document.querySelector(".dialog-login-password").value;
@@ -114,7 +115,7 @@ loginBtn.addEventListener("click",() => {
         .then((response) => {
             return response.json();
         }).then((data) => {
-            while (showLogin.hasChildNodes()){ 
+            while (showLogin.hasChildNodes()){ //檢查node下是否有子元素
                 showLogin.removeChild(showLogin.firstChild);
             }
             if ("ok" in data){
@@ -126,7 +127,7 @@ loginBtn.addEventListener("click",() => {
             }
         })
 },)
-
+// ---------------------點擊登出---------------------------- //
 btnLogout.addEventListener("click",() => {
     fetch(checkUserUrl,{
         method : "DELETE",
@@ -140,12 +141,14 @@ btnLogout.addEventListener("click",() => {
             } 
         })
 })
-
+// ---------------------- 回首頁 ---------------------------- //
 const frontPage = document.querySelector(".head-text")
 frontPage.addEventListener("click",() => {
     location.href = "/";
+    // window.location.replace("http://127.0.0.1:3000")
 })
 
+// ---------------------- 點擊預定行程 ----------------------- //
 bookingTrip.addEventListener("click",() => {
     fetch(checkUserUrl,{
         method : "GET",

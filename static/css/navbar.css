@@ -63,9 +63,9 @@ body{
 .dialog-login-email{
     width: 280px;
     height: 17px;
-    padding: 14px 10px;
+    padding: 14px 10px;/*利用padding(11px)調整input高度，(10px)顯示文字不貼邊*/
     border: 1px solid #CCCCCC;
-    border-radius: 5px; 
+    border-radius: 5px;
     margin-top: 57px;
 }
 .dialog-login-password{
@@ -73,8 +73,11 @@ body{
     height: 17px;
     padding: 14px 10px;
     border: 1px solid #CCCCCC;
-    border-radius: 5px; 
+    border-radius: 5px;
     margin-top: 10px;
+}
+input:focus{
+    outline: 1px solid #448899;
 }
 .dialog-login-button{
     width: 310px;
@@ -122,7 +125,7 @@ body{
 .dialog-signup-name{
     width: 280px;
     height: 17px;
-    padding: 14px 10px;
+    padding: 14px 10px;/*利用padding(11px)調整input高度，(10px)顯示文字不貼邊*/
     border: 1px solid #CCCCCC;
     border-radius: 5px; 
     margin-top: 57px;
@@ -132,15 +135,15 @@ body{
     height: 17px;
     padding: 14px 10px;
     border: 1px solid #CCCCCC;
-    border-radius: 5px; 
+    border-radius: 5px;
     margin-top: 10px;
 }
 .dialog-signup-password{
     width: 280px;
     height: 17px;
-    padding: 14px 10px;
+    padding: 14px 10px;/*利用padding(11px)調整input高度，(10px)顯示文字不貼邊*/
     border: 1px solid #CCCCCC;
-    border-radius: 5px; 
+    border-radius: 5px;
     margin-top: 10px;
 }
 .dialog-signup-button{
@@ -174,10 +177,10 @@ body{
 }
 /*---------------------- 導航欄 -------------------------*/
 .navigation{
-    position: sticky;
-    top: 0; 
-    left: 0;
-    z-index: 40;
+    position: sticky;/* 絕對定位，fixed是相對於瀏覽器窗口定位。 *//*-webkit-sticky;要搭配top left bottom right使用。用position:fixed會與下面position: relative影響*/
+    top: 0; /* 距離窗口頂部距離 */
+    left: 0;/* 距離窗口左邊的距離 */
+    z-index: 40;/* 層疊順序，數值越大就越高。頁面滾動的時候就不會被其他內容所遮擋。 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -211,8 +214,17 @@ body{
     margin: 10px;
     cursor: pointer;
 }
-.btn-login{
+.log-button{
     display: block;
+    width: 79.5px;
+    border: 0;
+    font-size: 16px;
+    color: #FFFFFF;
+    background-color: #FFFFFF;
+    margin: 10px;
+}
+.btn-login{
+    display: none;
     font-size: 16px;
     border: 0;
     background-color: #FFFFFF;
@@ -220,7 +232,7 @@ body{
     cursor: pointer;
 }
 .btn-logout{
-    display: block;
+    display: none;
     font-size: 16px;
     border: 0;
     background-color: #FFFFFF;
