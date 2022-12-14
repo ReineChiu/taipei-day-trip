@@ -21,7 +21,6 @@ body{
     transform: translate(-170px);
     display: none;
     width: 340px;
-    /* height: 275px; */
     border-radius: 6px;
     background-color: #FFFFFF;
 }
@@ -46,7 +45,7 @@ body{
     font-size: 24px;
     font-weight: 700;
     color: #666666;
-    margin: 15px 0 5px 0;  
+    margin: 10px 0 5px 0;  
 }
 .close-button{
     position: absolute;
@@ -221,12 +220,16 @@ body{
     cursor: pointer;
 }
 .btn-logout{
-    display: none;
+    display: block;
     font-size: 16px;
     border: 0;
     background-color: #FFFFFF;
     margin: 10px;
     cursor: pointer;
+}
+.nav-hr{
+    width: 100%;
+    border: 1px solid #E8E8E8;
 }
 /*----------------------------------------------*/
 .footer{

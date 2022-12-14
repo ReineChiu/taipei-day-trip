@@ -8,7 +8,7 @@ const direction = document.querySelector(".direction");
 const leftArrow = document.querySelector(".left-arrow");
 const rightArrow = document.querySelector(".right-arrow");
 let index = 0;
-let circle = document.querySelector(".circle");
+const circle = document.querySelector(".circle");
 
 const morning = document.getElementById("morning");
 const afternoon = document.getElementById("afternoon");
@@ -27,7 +27,7 @@ let apiUrl = `/api`+ path;
 fetch(apiUrl).then((response) =>{
     return response.json();
 }).then((data) =>{
-    const attraction = data["data"];
+    const attraction = data.data;
     const imgeUrls = attraction.images;
     document.title = attraction.name;
     for (let i=imgeUrls.length; i>0; i--){
@@ -55,7 +55,7 @@ fetch(apiUrl).then((response) =>{
         }
     }
 
-    let page = 0; 
+    let page = 0;
     let item = imgeUrls.length - 1;
     leftArrow.addEventListener("click",function(){
         item++;
@@ -85,7 +85,7 @@ fetch(apiUrl).then((response) =>{
         }
         for (i=imgeUrls.length-1; i>-1; i--){
             if (i === item){
-                image[item].style.opacity = 1;    
+                image[item].style.opacity = 1;   
             }else{
                 image[i].style.opacity = 0;
             }
@@ -99,7 +99,7 @@ fetch(apiUrl).then((response) =>{
             circleList[page].className = "current";   
         }  
     })
-    
+
     const name = document.createElement("div");
     name.setAttribute("class","name");
     name.textContent = attraction.name;
@@ -125,3 +125,53 @@ fetch(apiUrl).then((response) =>{
     address.appendChild(location);
     direction.appendChild(trans);   
 })
+
+// ---------------------- booking ---------------------------- //
+const bounceoverlay = document.querySelector(".overlay");
+const bouncedialog = document.querySelector(".dialog");
+
+const checkUserAPI = '/api/user/auth';
+const bookingCheck = document.querySelector(".submit");
+bookingCheck.addEventListener("click", () => {
+    const dateInput = document.getElementById("date").value;
+    const timeInput = document.querySelector('input[name="time"]:checked').value;
+    let priceInput = "";
+    if (timeInput === "morning"){
+        priceInput = 2000;
+    }else{
+        priceInput = 2500;
+    }
+
+    const attractionValue = path.split('/').slice(-1).toString()
+    const bookingData = {
+        date : dateInput,
+        time : timeInput,
+        price : priceInput,
+        attractionId : attractionValue
+    };
+    fetch(checkUserAPI,{
+        method : "GET",
+        headers : {"content-Type":"application/json"},
+    },)
+    .then((response) => {
+        return response.json();
+    }).then((data) => {
+        if (data.data != null){       
+            const bookingAPI = '/api/booking';
+            fetch(bookingAPI,{
+                method : "POST",
+                headers : {"content-Type":"application/json"},
+                body : JSON.stringify(bookingData)      
+            },)
+            .then((response) => {
+                return response.json();
+            }).then((data) => {
+                location.href = "/booking";
+            })
+        }else{
+            bounceoverlay.style.display = "block";
+            bouncedialog.style.display = "block";
+        }
+    })
+})
+

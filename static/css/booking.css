@@ -1,0 +1,196 @@
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.no-reservation{
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #666666;
+}
+.have-reservation{
+    display: none;
+}
+.notice{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+.notice-text{    
+    width: 1000px;
+    font-weight: 700;
+    color: #666666;
+}
+.booking-zone{
+    display: flex;
+    justify-content: center;
+}
+.booking-trip{
+    display: flex;
+    width: 980px;
+    padding: 0 10px 0 10px;
+    margin: 35px 0 40px 0;
+}
+.trip-site-img{
+    width: 266px;
+    height: 200px;
+    border: #999999 solid 1px;
+    margin-right: 22px;
+    overflow: hidden;
+    object-fit: cover;  
+    object-position: center;
+}
+.image{
+    display:block;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;  
+    object-position: center;
+}
+.trip-site-message{
+    position: relative;
+    width: 694px
+}
+.site-title{
+    font-weight: 700;
+    color: #448899;
+    margin-bottom: 25px;
+}
+.garbage-button{
+    position: absolute;
+    z-index: 1;
+    top: -8px;
+    right: 0;
+    height: 30px;
+    border-style:none;
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+.img-garbage{
+    width: 26px;
+    height: 26px;
+}
+.all-mes{   
+    color: #666666;
+    margin-top: 15px;
+}
+.mes-head{
+    font-weight: 700;   
+}
+
+
+hr{
+    width: 1200px;
+    border: 1px solid #E8E8E8;
+}
+
+.zone{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.zone-setting{
+    width: 980px;
+    padding: 0 10px 0 10px;
+    margin: 40px 0 40px 0;
+}
+.box-title{
+    font-weight: 700;
+    font-size: 19px;
+    color: #666666;
+    margin-bottom: 24px;
+}
+input{
+    width: 200px;
+    height: 32px;
+    border-radius: 5px;
+    border: 1px solid #999999;
+}
+input:focus{
+    outline: 1px solid #448899;
+}
+.contact-content{
+    margin-bottom: 15px;
+}
+.info-title{
+    color: #666666;
+}
+.input-info{
+    padding: 0 12px;
+}
+.contact-notice{
+    font-weight: 700;
+    color: #666666;
+    margin-top: 5px;
+}
+.confirm-zone{
+    display:flex;
+    justify-content: right;
+    width: 980px;
+    padding: 0 10px 0 10px;
+    margin: 40px 0 40px 0;
+}
+.confirm-mes{
+    display:block;
+}
+.confirm-fee{
+    display:flex;
+    justify-content: right;
+    color: #666666;
+    margin-bottom: 25px;
+}
+.submit{
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    margin-left: 20px;
+    font-size: 19px;
+    color: #FFFFFF;
+    background-color: #448899;
+}
+
+@media (max-width:1200px){
+    hr{
+        width: 90%;
+    }
+}
+@media (max-width:1000px){
+    .notice-text{    
+        width: 96%;
+    }
+    .booking-trip{
+        width: 96%;
+    }
+    .trip-site-img{
+        width: 43%;
+    }
+    .trip-site-message{
+        width: 100%;
+    }
+}
+@media (max-width:500px){
+    .booking-trip{
+        display: block;
+        width: 100%;
+        padding: 0;
+    }
+    .trip-site-img{
+        width: 100%;
+        margin: 0;
+    }
+    .image{
+        width: 100%;
+        margin: 0;
+    }
+    .trip-site-message{
+        margin: 20px 5px 0 5px;
+    }
+    .garbage-button{
+        top: 180px;
+        right: 0;
+    }
+}
