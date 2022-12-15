@@ -8,8 +8,8 @@ load_dotenv()
 
 connection = mysql.connector.connect(
         host = os.getenv("HOST"),
-        user = "root",
         port = os.getenv("PORT"),
+        user = os.getenv("MYSQL_USER"),       
         password = os.getenv("PASSWORD"),
         database = os.getenv("DATABASE"),
         charset = "utf8"

@@ -29,6 +29,8 @@ section {
     height: 400px;
     object-fit: cover;  
     object-position: 100% 40%;
+    opacity: 0;
+    transition: all 2s;
 }
 .left-arrow{
     position: absolute;
@@ -123,6 +125,11 @@ li{
     font-weight: 700;
     background: #FFFFFF;
 }
+.title-date{
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+}
 input[type=date]{
     width: 150px;
     padding: 7px 10px;
@@ -183,6 +190,7 @@ input[type="radio"]:checked+label:before {
     font-size: 19px;
     color: #FFFFFF;
     background-color: #448899;
+    cursor: pointer;
 }
 hr{
     width: 1200px;

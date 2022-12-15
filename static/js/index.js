@@ -16,12 +16,12 @@ const getAttractionsData = async () =>{
     const result = await fetch(apiUrl);
     const data = await result.json();
 
-    if (data["data"].length !== 0){
-        const attractions = data["data"];
+    if (data.data.length !== 0){
+        const attractions = data.data;
         for (let att of attractions){
             // box
             const containAtt = document.createElement("a");
-            containAtt.setAttribute("class","attraction");
+            containAtt.setAttribute("class","attraction")
             containAtt.href = `/attraction/${att.id}`
             //圖片層
             const containImg = document.createElement("div");
@@ -53,7 +53,7 @@ const getAttractionsData = async () =>{
     }else{
         mainContent.textContent = `查無該關鍵字 -${keyword}- 的資料！`; 
     }
-    nextpage = data["nextpage"];
+    nextpage = data.nextpage;
     isLoading = false;
 }
 
@@ -69,18 +69,17 @@ function searchKeyword(){
 }
 // =========== fetch 下一頁 ============= //
 function loadNextPage(){
-    if(nextpage === null || isLoading === true){
+    if(!nextpage || isLoading === true){
         return
     }
     const scrollTop = window.pageYOffset; 
     const clientHeight = document.documentElement.clientHeight; 
-    const scrollHeight = document.documentElement.scrollHeight; 
+    const scrollHeight = document.documentElement.scrollHeight;
     if(scrollTop + clientHeight > scrollHeight - 200){
         page = nextpage; 
         getAttractionsData();
     }
 }
-// 延遲
 function debounce(fn, wait=100){
     let timeout = null;
     return function(){
@@ -88,22 +87,22 @@ function debounce(fn, wait=100){
         timeout = setTimeout(fn, wait)
     }
 }
-// 設置監聽
 window.addEventListener("scroll", debounce(loadNextPage))
-// 呼叫第一頁(page=0)
 getAttractionsData();
 
 //============================== //
 fetch(`/api/categories`).then((response) =>{
     return response.json();
 }).then((data) =>{
-    const cats = data["data"];
+    const cats = data.data;
     for (let cat of cats){
         const menu = document.querySelector(".category-box");
+        const categoryBoxContent = document.querySelector(".category-box-content");
         const cate = document.createElement("div");
         cate.setAttribute("class","cate")
         cate.textContent = cat;
-        menu.appendChild(cate);
+        categoryBoxContent.appendChild(cate);
+        menu.appendChild(categoryBoxContent);
     }
     let show = document.querySelector(".search")
     const menu = document.querySelector(".category-box");
@@ -118,7 +117,7 @@ fetch(`/api/categories`).then((response) =>{
     menu.addEventListener("click",function(event){
         event.stopPropagation();
     })
-    // ====================================== //
+
     const el = document.getElementsByClassName("cate");
     const input = document.querySelector(".search");
     for (let i=0; i<el.length; i++){
@@ -128,4 +127,3 @@ fetch(`/api/categories`).then((response) =>{
         })
     }
 })
-

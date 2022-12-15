@@ -9,8 +9,8 @@ load_dotenv()
 
 connection_pool = pooling.MySQLConnectionPool(pool_name = "pynative_pool",
                                               pool_size = 5,
-                                              user = "root",
                                               host = os.getenv("HOST"),
+                                              user = os.getenv("MYSQL_USER"),                           
                                               database = os.getenv("DATABASE"),  
                                               password = os.getenv("PASSWORD"),#serect.MySQLPassword(),
                                               charset = "utf8")
@@ -31,11 +31,11 @@ def get_attractions(page,keyword):
                         LIMIT %s, %s''')
             value = [keyword, keyword, start, amount]
             cursor.execute(select, value)
-            results = cursor.fetchall() 
+            results = cursor.fetchall()
             for result in results:
                 columns = [col[0] for col in cursor.description]
                 data = dict(zip(columns, result))
-                data["images"] = json.loads(data["images"]) 
+                data["images"] = json.loads(data["images"])
                 trip_list.append(data)
             return trip_list
         else:
@@ -46,7 +46,7 @@ def get_attractions(page,keyword):
             for result in results:
                 columns = [col[0] for col in cursor.description]
                 data = dict(zip(columns, result))
-                data["images"] = json.loads(data["images"]) 
+                data["images"] = json.loads(data["images"])
                 trip_list.append(data)
             return trip_list          
     except Exception as e:
@@ -54,7 +54,8 @@ def get_attractions(page,keyword):
         return None
     finally:
         cursor.close()
-        connection_object.close()
+        connection_object.close()    
+
 
 def attraction_id(attractionId):
     try:
@@ -78,6 +79,7 @@ def attraction_id(attractionId):
         cursor.close()
         connection_object.close()
 
+
 def category_list():
     try:
         connection_object = connection_pool.get_connection()
@@ -96,6 +98,7 @@ def category_list():
     finally:
         cursor.close()
         connection_object.close()
+
 
 # ----------------- user 用戶資料表---------------------- #
 def select_user(**kwargs):
@@ -120,9 +123,10 @@ def select_user(**kwargs):
         return None
     finally:
         cursor.close()
-        connection_object.close()       
+        connection_object.close()
 
-def inser_user(**kwargs):
+
+def insert_user(**kwargs):
     try:
         insert_col = ""
         insert_val = ""
@@ -146,3 +150,112 @@ def inser_user(**kwargs):
     finally:
         cursor.close()
         connection_object.close()
+
+
+# ----------------- booking 行程資料表---------------------- #
+def select_booking(user_id):
+    try:
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor()
+        select = ('''
+            SELECT 
+                b.id,
+                b.attraction_id,
+                b.date,
+                b.time,
+                b.price,
+                a.id,
+                a.name,
+                a.address,
+                a.images,
+                u.id,
+                u.username,
+                u.email
+            FROM booking as b INNER JOIN 
+                attraction as a on b.attraction_id=a.id
+                INNER JOIN user as u on b.user_id=u.id
+            WHERE u.id=%s;
+            ''')
+        userid = [user_id]
+        cursor.execute(select, userid)
+        account = cursor.fetchone()
+        if account:
+            columns = [col[0] for col in cursor.description]
+            data = dict(zip(columns, account))
+            return data
+        else:
+            print("查無資料")
+            return None
+    except Exception as e:
+        print(f"{e}:查詢行程失敗")
+        return None
+    finally:
+        cursor.close()
+        connection_object.close()
+
+
+def insert_booking(**kwargs):
+    try:
+        insert_col = ""
+        insert_val = ""
+        for key in kwargs:
+            insert_col = insert_col + f"{key}, "
+            insert_val = insert_val + f"'{kwargs[key]}', "
+        insert_col = insert_col[:-2]
+        insert_val = insert_val[:-2]
+
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor()
+        insert = f"""
+                insert into booking({insert_col})
+                value({insert_val})
+                """
+        cursor.execute(insert)
+        connection_object.commit()
+    except Exception as e:
+        print(f"{e}:寫入預定行程失敗")
+        return None
+    finally:
+        cursor.close()
+        connection_object.close()
+
+  
+def update_booking(attraction_id, date, time, price, user_id):
+    try:
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor()
+        update = ('''
+            update booking set 
+            attraction_id=%s,
+            date=%s,
+            time=%s,
+            price=%s
+            where user_id=%s;
+            ''')
+        value = [attraction_id, date, time, price, user_id]
+        cursor.execute(update, value)
+        connection_object.commit()
+        results = cursor.fetchone()      
+    except Exception as e:
+        print(f"{e}:更新預定行程失敗")
+        return None
+    finally:
+        cursor.close()
+        connection_object.close()
+
+
+def delete_booking(user_id):
+    try:
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor()
+        delete = ("delete from booking where user_id=%s;")
+        value = [user_id]
+        cursor.execute(delete, value)
+        connection_object.commit()
+    except Exception as e:
+        print(f"{e}:刪除行程失敗")
+        return None
+    finally:
+        cursor.close()
+        connection_object.close()
+

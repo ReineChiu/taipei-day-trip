@@ -18,13 +18,15 @@
                     <img class="img-close" src="{{ url_for('static', filename='image/icon_close.png') }}" alt="">
                 </button>
             </div>
-            <input type="email" class="dialog-login-email"
-                name="email" placeholder="輸入電子信箱&nbsp;(xxx@xxx.com)">
-            </input><br>
-            <input type="password" class="dialog-login-password" name="password"
-                placeholder="輸入密碼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(6-20個數字)">
-            </input><br>
-            <button type="submit" class="dialog-login-button">登入帳戶</button>
+            <form>
+                <input type="email" class="dialog-login-email"
+                    name="email" placeholder="輸入電子信箱&nbsp;(xxx@xxx.com)">
+                </input><br>
+                <input type="password" class="dialog-login-password" name="password"
+                    placeholder="輸入密碼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(6-20個英數組合)">
+                </input><br>
+                <button type="reset" class="dialog-login-button">登入帳戶</button>
+            </form>
             <div id="loginmessage"></div>
             <div class="dialog-text">還沒有帳戶？<button class="signup-button">點此註冊</button></div>
         </div>
@@ -35,22 +37,24 @@
                     <img class="img-close" src="{{ url_for('static', filename='image/icon_close.png') }}" alt="">
                 </button>
             </div>
-            <div class="signup-name-fence">
-                <input class="dialog-signup-name" name="name" 
-                    placeholder="輸入姓名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(可使用中文、英文大小寫、數字)">
-                </input><br>
-            </div>
-            <div class="signup-email-fence">
-                <input type="email" class="dialog-signup-email"
-                    name="email" placeholder="輸入電子信箱&nbsp;(xxx@xxx.com)">
-                </input><br>
-            </div>
-            <div class="signup-password-fence">
-                <input type="password" class="dialog-signup-password" name="password"
-                    placeholder="輸入密碼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(6-20個數字)">
-                </input><br>
-            </div>
-            <button type="submit" class="dialog-signup-button">註冊新帳戶</button>
+            <form>
+                <div class="signup-name-fence">
+                    <input class="dialog-signup-name" name="name" 
+                        placeholder="輸入姓名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(可使用中文、英文大小寫、數字)">
+                    </input><br>
+                </div>
+                <div class="signup-email-fence">
+                    <input type="email" class="dialog-signup-email"
+                        name="email" placeholder="輸入電子信箱&nbsp;(xxx@xxx.com)">
+                    </input><br>
+                </div>
+                <div class="signup-password-fence">
+                    <input type="password" class="dialog-signup-password" name="password"
+                        placeholder="輸入密碼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(6-20個英數組合)">
+                    </input><br>
+                </div>
+                <button type="reset" class="dialog-signup-button">註冊新帳戶</button>
+            </form>
             <div id="signmessage"></div>
             <div class="dialog-text">
                 <div class="tip">已經有帳戶了？</div>
@@ -65,11 +69,13 @@
             <div class="head-text">臺北一日遊</div>
             <div class="head-button">
                 <button class="booking">預定行程</button>
+                <div class="log-button">空空/空白</div>
                 <button class="btn-login">登入/註冊</button>
-                <button class="btn-logout">登出系統</button>
+                <button class="btn-logout">登出系統</button>   
             </div>
         </div>
     </nav>
+    <hr class="nav-hr">
     {% block content %}{% endblock %}
     <footer class="footer">
         <div class="footer-text">COPYRIGHT © 2022 臺北一日遊</div>

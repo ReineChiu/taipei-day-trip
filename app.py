@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, Blueprint, jsonify, make_response
 from route.attraction import api_attraction
 from route.auth import api_auth
+from route.booking import api_booking
 from dotenv import load_dotenv
 import os, jwt
 
@@ -12,7 +13,8 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config['JSONIFY_MIMETYPE'] ="application/json;charset=utf-8"
 
 app.register_blueprint(api_attraction, url_prefix="/api")
-app.register_blueprint(api_auth, url_prefix="/api") 
+app.register_blueprint(api_auth, url_prefix="/api")
+app.register_blueprint(api_booking, url_prefix="/api") 
 
 @app.route("/")
 def index():
@@ -28,6 +30,6 @@ def thankyou():
 	return render_template("thankyou.html")
 
 
-if __name__ =='__main__':		
+if __name__ =='__main__':	
 	app.run(host="0.0.0.0", port=3000)
 	
