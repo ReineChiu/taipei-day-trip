@@ -22,10 +22,10 @@ cursor.execute("""
         email VARCHAR(100) NOT NULL UNIQUE,#設置UNIQUE 和index相同，差異在於不能允許重複值
         password VARCHAR(100) NOT NULL);
         """)
-cursor.execute("""
-        ALTER TABLE user ADD INDEX 
-        index_email_pwd(email,password);
-        """)
+# cursor.execute("""
+#         ALTER TABLE user ADD INDEX 
+#         index_email_pwd(email,password);
+#         """)
 
 cursor.execute("""
         CREATE TABLE IF NOT EXISTS booking(
@@ -36,11 +36,11 @@ cursor.execute("""
         time VARCHAR(100) NOT NULL,
         price INT NOT NULL);
         """)
-cursor.execute("""
-        ALTER TABLE booking 
-        ADD FOREIGN KEY(user_id) 
-        REFERENCES user(id);
-        """)
+# cursor.execute("""
+#         ALTER TABLE booking 
+#         ADD FOREIGN KEY(user_id) 
+#         REFERENCES user(id);
+#         """)
 
 cursor.execute("""
         CREATE TABLE IF NOT EXISTS orders(
