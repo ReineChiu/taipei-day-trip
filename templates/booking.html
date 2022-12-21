@@ -48,14 +48,17 @@
                 <div class="contact-content">
                     <label class="info-title">聯絡姓名：</label>
                     <span><input type="text" class="input-info" id="user"></span>
+                    <div class="name-errormes"></div>
                 </div>
                 <div class="contact-content">
                     <label class="info-title">聯絡信箱：</label>
                     <span><input type="email" class="input-info" id="user-email"></span>
+                    <div class="email-errormes"></div>
                 </div>
                 <div class="contact-content">
                     <label for="" class="info-title">手機號碼：</label>
-                    <span class="" id=""><input type="tel" class="input-info" placeholder="09xx-xxx-xxx"></span>
+                    <span class="" ><input type="tel" class="input-info" id="user-phone" placeholder="09xx-xxx-xxx"></span>
+                    <div class="phone-errormes"></div>
                 </div>
                 <div class="contact-notice">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
             </div>
@@ -64,34 +67,38 @@
         <div class="zone">
             <div class="zone-setting">
                 <div class="box-title">信用卡付款資訊</div>
-                <div class="contact-content">
-                    <label for="" class="info-title">卡片號碼：</label>
-                    <span id=""><input type="text" class="input-info" placeholder="xxxx-xxxx-xxxx-xxxx"></span>
+                <div class="card-content">
+                    <div class="info-title">卡片號碼：</div>
+                    <div class="tpfield" id="card-number"></div>
                 </div>
-                <div class="contact-content">
-                    <label for="" class="info-title">過期時間：</label>
-                    <span id=""><input type="text" class="input-info" placeholder="mm-yy"></span>
+                <div class="card-content">
+                    <div class="info-title">過期時間：</div>
+                    <div class="tpfield" id="card-expiration-date"></div>
                 </div>
-                <div class="contact-content">
-                    <label for="" class="info-title">驗證密碼：</label>
-                    <span id=""><input type="text" class="input-info" placeholder=""></span>
+                <div class="card-content">
+                    <div class="info-title">驗證密碼：</div>
+                    <div class="tpfield" id="card-ccv"></div>
                 </div>
             </div>
         </div>
         <hr>
         <div class="zone">
             <div class="confirm-zone">
+                <div class="error-box">
+                    <div class="error-mes"></div>
+                </div>
                 <div class="confirm-mes">
                     <div class="confirm-fee">
                         <span class="mes-head">總價：
                             <span class="booking-total"></span>
                         </span>
                     </div>
-                    <button class="submit">確認訂購並付款</button>
+                    <button class="submit" id="submit">確認訂購並付款</button>
                 </div>
             </div>
         </div>
     </div>
 </sention>
+<script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
 <script derf src="{{ url_for('static', filename='js/booking.js') }}"></script>
 {% endblock %}

@@ -13,6 +13,7 @@ def singup():
     username = request.json.get("username")
     email = request.json.get("email")
     password = request.json.get("password")
+
     if len(username) == 0 or len(email) == 0 or len(password) == 0:
         return ({"error":True, "message": "姓名、信箱、密碼不可空白"},400)
 
@@ -26,12 +27,12 @@ def singup():
     if register_user:
         return ({"error":True, "message":"信箱已被註冊"},400)
     if not register_user:
+
         try:
-            # 對密碼做hash
             en_pwd = password.encode('utf-8')
             hashed = bcrypt.hashpw(en_pwd, bcrypt.gensalt())
             hashed_decode = bcrypt.hashpw(en_pwd, bcrypt.gensalt()).decode('utf-8')
-            insert_user (username = username, email = email, password = hashed_decode) # 將hash完的password.decode,存進資料庫
+            insert_user(username = username, email = email, password = hashed_decode) # 將hash完的password.decode,存進資料庫
             confirm_user = select_user(email = email, password = hashed_decode)
             if confirm_user:
                 return ({"ok":True},200)
@@ -59,6 +60,7 @@ def check_user():
 def loginin():
     email = request.json.get("email")
     password = request.json.get("password")
+    
     if len(email) == 0 or len(password) == 0:
         return ({"error":True, "message": "信箱、密碼不可空白"},400)
 

@@ -107,6 +107,7 @@ hr{
 input{
     width: 200px;
     height: 32px;
+    font-size: 16px;
     border-radius: 5px;
     border: 1px solid #999999;
 }
@@ -119,20 +120,67 @@ input:focus{
 .info-title{
     color: #666666;
 }
+
 .input-info{
     padding: 0 12px;
 }
+
+.name-errormes{
+    padding-left: 85px;
+    font-size: 10px;
+    color: #8b0000;
+}
+.email-errormes{
+    padding-left: 85px;
+    font-size: 10px;
+    color: #8b0000;
+}
+.phone-errormes{
+    padding-left: 85px;
+    font-size: 10px;
+    color: #8b0000;
+}
+
 .contact-notice{
     font-weight: 700;
     color: #666666;
     margin-top: 5px;
 }
+
+.card-content{
+    display:flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.tpfield{
+    width: 220px;
+    height: 32px;
+    border: 1px solid #999999;
+    border-radius: 5px;
+    padding: 0 10px;
+}
+
 .confirm-zone{
     display:flex;
     justify-content: right;
     width: 980px;
     padding: 0 10px 0 10px;
     margin: 40px 0 40px 0;
+}
+.error-box{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 93px
+}
+.error-mes{
+    display:block;
+    align-items: center;
+    text-align: center;
+    color: #8b0000;
+    font-size: 16px;
+    
 }
 .confirm-mes{
     display:block;
@@ -151,6 +199,7 @@ input:focus{
     font-size: 19px;
     color: #FFFFFF;
     background-color: #448899;
+    cursor: pointer;
 }
 
 @media (max-width:1200px){

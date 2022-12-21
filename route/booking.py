@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-import os, json, jwt, datetime
+import os, json, jwt
 from mysql_connect import select_booking, insert_booking, update_booking, delete_booking
 
 
@@ -14,6 +14,7 @@ def get_booking():
             user_id = data["id"]
             username = data["username"]
             email = data["email"]
+
             booking_data = select_booking(user_id)
             if booking_data:
                 data = {
@@ -50,8 +51,10 @@ def creat_booking():
             time = request.json.get("time")
             price = request.json.get("price")
             attraction_id = request.json.get("attractionId")
+
             if not (user_id and date and time and price and attraction_id):
                 return ({"error":True, "message":"建立失敗，輸入不正確或其他原因"},400)
+
             result = select_booking(user_id)
             if result:
                 update = update_booking(attraction_id, date, time, price, user_id)
@@ -78,6 +81,7 @@ def del_booking():
             data = jwt.decode(token, os.getenv("JWT_SERECT_KEY"), algorithms="HS256")
             user_id = data["id"]
             delete = delete_booking(user_id)
+            
             check_booking = select_booking(user_id)
             if not check_booking:
                 return ({"ok":True},200)

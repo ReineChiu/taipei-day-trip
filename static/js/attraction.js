@@ -7,7 +7,7 @@ const direction = document.querySelector(".direction");
 
 const leftArrow = document.querySelector(".left-arrow");
 const rightArrow = document.querySelector(".right-arrow");
-let index = 0;
+let index = 0; 
 const circle = document.querySelector(".circle");
 
 const morning = document.getElementById("morning");
@@ -21,7 +21,7 @@ afternoon.addEventListener("click",function(){
 });
 
 
-let path = window.location.pathname;
+let path = window.location.pathname; 
 let apiUrl = `/api`+ path;
 
 fetch(apiUrl).then((response) =>{
@@ -29,6 +29,7 @@ fetch(apiUrl).then((response) =>{
 }).then((data) =>{
     const attraction = data.data;
     const imgeUrls = attraction.images;
+    const loadImage = document.querySelector(".lds-dual-ring");
     document.title = attraction.name;
     for (let i=imgeUrls.length; i>0; i--){
         let imageAll = document.createElement("img");
@@ -36,17 +37,22 @@ fetch(apiUrl).then((response) =>{
         index++;
         imageAll.setAttribute("class","image")
         imageAll.src = imgeUrls[i-1];
+        // image preload
+        imageAll.onload = function() {
+            loadImage.style.display = "none";
+        };
         images.appendChild(imageAll);     
-    }   
-    // 圓點=張數 
+    }  
+
     for (let i=0; i<imgeUrls.length; i++){
         let li = document.createElement("li");
         circle.appendChild(li)
     }
-    // 點Arrow，切換上下張
+
     let image = document.querySelectorAll(".image");
     let circleList = document.querySelectorAll("li")
     circleList[0].className = "current"
+     
     for (let i=0; i<imgeUrls.length; i++){
         if (i != imgeUrls.length-1){
             image[i].style.opacity = 0;
@@ -55,8 +61,8 @@ fetch(apiUrl).then((response) =>{
         }
     }
 
-    let page = 0;
-    let item = imgeUrls.length - 1;
+    let page = 0; 
+    let item = imgeUrls.length - 1; 
     leftArrow.addEventListener("click",function(){
         item++;
         if (item >imgeUrls.length - 1){
@@ -69,6 +75,7 @@ fetch(apiUrl).then((response) =>{
                 image[item].style.opacity = 1; 
             }
         }
+        
         page--;
         if (page <0){
             page = imgeUrls.length- 1;   
@@ -100,6 +107,7 @@ fetch(apiUrl).then((response) =>{
         }  
     })
 
+    
     const name = document.createElement("div");
     name.setAttribute("class","name");
     name.textContent = attraction.name;
@@ -113,6 +121,7 @@ fetch(apiUrl).then((response) =>{
     nameCatMrt.appendChild(name);
     nameCatMrt.appendChild(cateAtMrt);
 
+    
     const description = document.createElement("div");
     description.setAttribute("class","description");
     description.textContent = attraction.description;
@@ -126,7 +135,7 @@ fetch(apiUrl).then((response) =>{
     direction.appendChild(trans);   
 })
 
-// ---------------------- booking ---------------------------- //
+// ---------------------- booking 預定行程 ---------------------------- //
 const bounceoverlay = document.querySelector(".overlay");
 const bouncedialog = document.querySelector(".dialog");
 

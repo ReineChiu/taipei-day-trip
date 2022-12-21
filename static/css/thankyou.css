@@ -1,0 +1,32 @@
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1200px;
+}
+.success{
+    display: block;
+    justify-content: center;
+    align-items: center;
+    color: #666666;
+}
+.content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:40px;
+}
+
+
+.order-number{
+    font-weight: 700;
+    color: #448899;
+}
+.error{
+    display: none;
+    justify-content: center;
+    align-items: center;
+    color: #666666;
+}
+

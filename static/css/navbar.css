@@ -63,7 +63,7 @@ body{
 .dialog-login-email{
     width: 280px;
     height: 17px;
-    padding: 14px 10px;/*利用padding(11px)調整input高度，(10px)顯示文字不貼邊*/
+    padding: 14px 10px;
     border: 1px solid #CCCCCC;
     border-radius: 5px;
     margin-top: 57px;
@@ -125,7 +125,7 @@ input:focus{
 .dialog-signup-name{
     width: 280px;
     height: 17px;
-    padding: 14px 10px;/*利用padding(11px)調整input高度，(10px)顯示文字不貼邊*/
+    padding: 14px 10px;
     border: 1px solid #CCCCCC;
     border-radius: 5px; 
     margin-top: 57px;
@@ -141,7 +141,7 @@ input:focus{
 .dialog-signup-password{
     width: 280px;
     height: 17px;
-    padding: 14px 10px;/*利用padding(11px)調整input高度，(10px)顯示文字不貼邊*/
+    padding: 14px 10px;
     border: 1px solid #CCCCCC;
     border-radius: 5px;
     margin-top: 10px;
@@ -164,8 +164,10 @@ input:focus{
 }
 .erroressage{
     height: 17px;
+    font-size: 12px;
     color: #8b0000;
     margin-bottom: 10px;
+    padding: 0 10px 0 10px;
 }
 .login-button{
     font-size: 14px;
@@ -177,10 +179,10 @@ input:focus{
 }
 /*---------------------- 導航欄 -------------------------*/
 .navigation{
-    position: sticky;/* 絕對定位，fixed是相對於瀏覽器窗口定位。 *//*-webkit-sticky;要搭配top left bottom right使用。用position:fixed會與下面position: relative影響*/
-    top: 0; /* 距離窗口頂部距離 */
-    left: 0;/* 距離窗口左邊的距離 */
-    z-index: 40;/* 層疊順序，數值越大就越高。頁面滾動的時候就不會被其他內容所遮擋。 */
+    position: sticky;
+    top: 0; 
+    left: 0;
+    z-index: 40;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -216,7 +218,7 @@ input:focus{
 }
 .log-button{
     display: block;
-    width: 79.5px;
+    width: 82px;
     border: 0;
     font-size: 16px;
     color: #FFFFFF;
@@ -233,6 +235,7 @@ input:focus{
 }
 .btn-logout{
     display: none;
+    width: 82px;
     font-size: 16px;
     border: 0;
     background-color: #FFFFFF;

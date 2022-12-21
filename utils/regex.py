@@ -8,6 +8,7 @@ def verify_name(username):
         print(f"{e}:username不符合驗證格式")
         return None
 
+
 def verify_email(email):
     try:
         emailRegex = re.match("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",email)
@@ -24,3 +25,13 @@ def verify_password(password):
     except Exception as e:
         print(f"{e}:password不符合驗證格式")
         return None
+
+
+def verify_phone(phone):
+    try:
+        phoneRegex = re.match("09\d{2}(\d{6}|-\d{3}-\d{3})",phone)
+        return phoneRegex
+    except Exception as e:
+        print(f"{e}:phone不符合驗證格式")
+        return None
+
