@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 import os, json, jwt, requests
-from mysql_connect import select_booking, insert_order, select_order, update_order
+from mysql_connect import select_booking, insert_order, select_order, update_order, delete_booking
 from datetime import datetime
 from utils.regex import verify_name, verify_email, verify_password, verify_phone
 
@@ -79,6 +79,9 @@ def creat_orders():
             data = pay_res.json()
             if data["status"] == 0:
                 update_order(status = data["status"], order_number = in_ordernumber)
+
+                delete_booking(user_id)
+
                 renew_order = select_order(order_number = in_ordernumber,user_id = user_id)
                 order_data = {
                     "number" : renew_order["order_number"],
