@@ -12,16 +12,15 @@ connection_pool = pooling.MySQLConnectionPool(pool_name = "pynative_pool",
                                               host = os.getenv("HOST"),
                                               user = os.getenv("MYSQL_USER"),                           
                                               database = os.getenv("DATABASE"),  
-                                              password = os.getenv("PASSWORD"),#serect.MySQLPassword(),
+                                              password = os.getenv("PASSWORD"),
                                               charset = "utf8")
 
-# ----------------- attraction 景點資料表---------------------- #
 def get_attractions(page,keyword):
     try:
         start = page * 12
         amount = 13
         connection_object = connection_pool.get_connection()
-        cursor = connection_object.cursor()
+        cursor = connection_object.cursor(dictionary=True)
         
         trip_list = []
         if keyword:
@@ -31,22 +30,18 @@ def get_attractions(page,keyword):
                         LIMIT %s, %s''')
             value = [keyword, keyword, start, amount]
             cursor.execute(select, value)
-            results = cursor.fetchall()
-            for result in results:
-                columns = [col[0] for col in cursor.description]
-                data = dict(zip(columns, result))
-                data["images"] = json.loads(data["images"])
+            results = cursor.fetchall() 
+            for data in results: 
+                data["images"] = json.loads(data["images"]) 
                 trip_list.append(data)
             return trip_list
         else:
             select = ("SELECT * FROM attraction LIMIT %s, %s")
             value = [start, amount]
             cursor.execute(select, value)
-            results = cursor.fetchall()
-            for result in results:
-                columns = [col[0] for col in cursor.description]
-                data = dict(zip(columns, result))
-                data["images"] = json.loads(data["images"])
+            results = cursor.fetchall() 
+            for data in results:
+                data["images"] = json.loads(data["images"]) 
                 trip_list.append(data)
             return trip_list          
     except Exception as e:
@@ -60,16 +55,15 @@ def get_attractions(page,keyword):
 def attraction_id(attractionId):
     try:
         connection_object = connection_pool.get_connection()
-        cursor = connection_object.cursor()
+        cursor = connection_object.cursor(dictionary=True)
         select = ("SELECT * FROM attraction WHERE id=%s")
         id = [attractionId]
         cursor.execute(select, id)
+
         result = cursor.fetchone()
         if result:
-            columns = [col[0] for col in cursor.description]
-            data = dict(zip(columns, result))
-            data["images"] = json.loads(data["images"])
-            return data
+            result["images"] = json.loads(result["images"])
+            return result
         else:
             return None
     except Exception as e:
@@ -100,11 +94,10 @@ def category_list():
         connection_object.close()
 
 
-# ----------------- user 用戶資料表---------------------- #
 def select_user(**kwargs):
     try:
         connection_object = connection_pool.get_connection()
-        cursor = connection_object.cursor()
+        cursor = connection_object.cursor(dictionary=True)
         select = ("select * from user where ")
         for key in kwargs:
             select = select + f"{key}= '{kwargs[key]}' and "
@@ -112,11 +105,9 @@ def select_user(**kwargs):
         cursor.execute(select)
         account = cursor.fetchone()
         if account:
-            columns = [col[0] for col in cursor.description]
-            data = dict(zip(columns, account))
-            return data
+            return account
         else:
-            print("查無資料")
+            print("此信箱未被使用")
             return None
     except Exception as e:
         print(f"{e}:註冊失敗")
@@ -152,39 +143,28 @@ def insert_user(**kwargs):
         connection_object.close()
 
 
-# ----------------- booking 行程資料表---------------------- #
+
 def select_booking(user_id):
     try:
         connection_object = connection_pool.get_connection()
-        cursor = connection_object.cursor()
-        select = ('''
+        cursor = connection_object.cursor(dictionary=True)
+        select = ("""
             SELECT 
-                b.id,
-                b.attraction_id,
-                b.date,
-                b.time,
-                b.price,
-                a.id,
-                a.name,
-                a.address,
-                a.images,
-                u.id,
-                u.username,
-                u.email
+                b.attraction_id,b.date,b.time,b.price,
+                a.id,a.name,a.address,a.images,
+                u.id,u.username,u.email
             FROM booking as b INNER JOIN 
                 attraction as a on b.attraction_id=a.id
                 INNER JOIN user as u on b.user_id=u.id
             WHERE u.id=%s;
-            ''')
+            """)
         userid = [user_id]
         cursor.execute(select, userid)
         account = cursor.fetchone()
         if account:
-            columns = [col[0] for col in cursor.description]
-            data = dict(zip(columns, account))
-            return data
+            return account
         else:
-            print("查無資料")
+            print("查無預約行程資料")
             return None
     except Exception as e:
         print(f"{e}:查詢行程失敗")
@@ -200,10 +180,13 @@ def insert_booking(**kwargs):
         insert_val = ""
         for key in kwargs:
             insert_col = insert_col + f"{key}, "
-            insert_val = insert_val + f"'{kwargs[key]}', "
+            if type(kwargs[key]) == str:
+                insert_val = insert_val + f"'{kwargs[key]}', "
+            else:
+                insert_val = insert_val + f"{kwargs[key]}, "
+
         insert_col = insert_col[:-2]
         insert_val = insert_val[:-2]
-
         connection_object = connection_pool.get_connection()
         cursor = connection_object.cursor()
         insert = f"""
@@ -235,7 +218,7 @@ def update_booking(attraction_id, date, time, price, user_id):
         value = [attraction_id, date, time, price, user_id]
         cursor.execute(update, value)
         connection_object.commit()
-        results = cursor.fetchone()      
+        results = cursor.fetchone()     
     except Exception as e:
         print(f"{e}:更新預定行程失敗")
         return None
@@ -259,3 +242,98 @@ def delete_booking(user_id):
         cursor.close()
         connection_object.close()
 
+
+
+def insert_order(**kwargs):
+    try:
+        insert_col = ""
+        insert_val = ""
+        for key in kwargs:
+            insert_col = insert_col + f"{key}, "
+            if type(kwargs[key]) == str:
+                insert_val = insert_val + f"'{kwargs[key]}', "
+            else:
+                insert_val = insert_val + f"{kwargs[key]}, "
+
+        insert_col = insert_col[:-2]
+        insert_val = insert_val[:-2]
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor()
+        insert = f"""
+                INSERT INTO orders({insert_col})
+                VALUE({insert_val})
+                """
+        cursor.execute(insert)
+        connection_object.commit()
+    except Exception as e:
+        print(f"{e}:寫入訂購行程失敗")
+        return None
+    finally:
+        cursor.close()
+        connection_object.close()
+
+
+def select_order(**kwargs):
+    try:
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor(dictionary=True)
+        select = ("""
+            SELECT 
+                o.user_id,
+                o.attraction_id,
+                o.contact_person,
+                o.contact_email,
+                o.phone,
+                o.total_price,
+                o.date,
+                o.time,
+                o.order_number,
+                o.status,
+                a.id,
+                a.name,
+                a.address,
+                a.images,
+                u.id
+            FROM orders as o INNER JOIN
+                attraction as a on o.attraction_id=a.id
+                INNER JOIN user as u on o.user_id=u.id WHERE """)
+
+        for key in kwargs:
+            if type(kwargs[key]) == str:
+                select = select + f"{key}='{kwargs[key]}' and "
+            else:
+                select = select + f"{key}={kwargs[key]} and "
+        select = select[:-5]
+        cursor.execute(select)
+        account = cursor.fetchone()
+        if account:
+            return account
+        else:
+            print("查無訂單資料")
+            return None
+    except Exception as e:
+        print(f"{e}:查詢行程失敗")
+        return None
+    finally:
+        cursor.close()
+        connection_object.close()
+
+
+def update_order(status, order_number):
+    try:
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor()
+        update = ('''
+            UPDATE orders SET
+            status=%s where order_number=%s;
+            ''')
+        value = [status, order_number]
+        cursor.execute(update, value)
+        connection_object.commit()
+        results = cursor.fetchone() 
+    except Exception as e:
+        print(f"{e}:更新預定行程失敗")
+        return None
+    finally:
+        cursor.close()
+        connection_object.close()

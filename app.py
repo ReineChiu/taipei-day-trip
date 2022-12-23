@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, Blueprint, jsonify, make_response
+from dotenv import load_dotenv
+import os, jwt
+
 from route.attraction import api_attraction
 from route.auth import api_auth
 from route.booking import api_booking
-from dotenv import load_dotenv
-import os, jwt
+from route.order import api_order
 
 load_dotenv()
 
@@ -14,7 +16,9 @@ app.config['JSONIFY_MIMETYPE'] ="application/json;charset=utf-8"
 
 app.register_blueprint(api_attraction, url_prefix="/api")
 app.register_blueprint(api_auth, url_prefix="/api")
-app.register_blueprint(api_booking, url_prefix="/api") 
+app.register_blueprint(api_booking, url_prefix="/api")
+app.register_blueprint(api_order, url_prefix="/api") 
+
 
 @app.route("/")
 def index():

@@ -32,6 +32,37 @@ section {
     opacity: 0;
     transition: all 2s;
 }
+.lds-dual-ring {
+    display: inline-block;
+    transform: translate(0, 140px);
+    position: absolute;
+    z-index: 40;
+    width: 80px;
+    height: 80px;
+}
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    justify-content: center;
+    align-items: center;
+
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    border-color: #448899 transparent #448899 transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
 .left-arrow{
     position: absolute;
     z-index: 31;
@@ -190,7 +221,6 @@ input[type="radio"]:checked+label:before {
     font-size: 19px;
     color: #FFFFFF;
     background-color: #448899;
-    cursor: pointer;
 }
 hr{
     width: 1200px;
