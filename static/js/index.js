@@ -36,33 +36,7 @@ const getAttractionsData = async () =>{
             img.onload = function() {
                 loadImage.style.display = "none";
             };
-            // // ============================================= //
-            let imgs = document.querySelectorAll('img'); 
 
-            show = 0, 
-            num = 0; 
-            let all = imgs.length;
-            [].slice.call(imgs).forEach(function(element,index){
-                element.addEventListener('load',function(){
-                    num++;
-                    show = Math.floor(100*num/all)+"%";
-                    asdLoad.textContent = show;
-                    img.onload = function() {
-                        asdLoad.style.display = "none";
-                    };        
-            })
-                element.addEventListener('error',function(){
-                    num++;
-                    show = Math.floor(100*num/all)+"%";
-                    asdLoad.textContent = show;
-                    img.onload = function() {
-                        asdLoad.style.display = "none";
-                    };
-                })
-            })
-                    
-
-// ============================================== //
             const name = document.createElement("div");
             name.setAttribute("class","name");
             name.textContent = att.name;
@@ -84,6 +58,7 @@ const getAttractionsData = async () =>{
             containAtt.appendChild(info);
             mainContent.appendChild(containAtt);
         }
+
     }else{
         mainContent.textContent = `查無該關鍵字 -${keyword}- 的資料！`; 
     }
@@ -153,6 +128,7 @@ fetch(`/api/categories`).then((response) =>{
     menu.addEventListener("click",function(event){
         event.stopPropagation();
     })
+
     const el = document.getElementsByClassName("cate");
     const input = document.querySelector(".search");
     for (let i=0; i<el.length; i++){

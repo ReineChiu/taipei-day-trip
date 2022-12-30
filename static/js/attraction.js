@@ -1,7 +1,4 @@
 
-function diaologFinder(){
-
-}
 
 const images = document.querySelector(".images")
 const nameCatMrt = document.querySelector(".name-catmrt");
@@ -47,7 +44,6 @@ fetch(apiUrl).then((response) =>{
             };
             images.appendChild(imageAll);     
         }   
-        // 圓點=張數 
         for (let i=0; i<imgeUrls.length; i++){
             let li = document.createElement("li");
             circle.appendChild(li)
@@ -55,7 +51,7 @@ fetch(apiUrl).then((response) =>{
         let image = document.querySelectorAll(".image");
         let circleList = document.querySelectorAll("li")
         circleList[0].className = "current";
-        //  
+        
         for (let i=0; i<imgeUrls.length; i++){
             if (i != imgeUrls.length-1){
                 image[i].style.opacity = 0;
