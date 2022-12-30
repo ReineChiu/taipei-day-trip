@@ -1,5 +1,4 @@
 
-
 const images = document.querySelector(".images")
 const nameCatMrt = document.querySelector(".name-catmrt");
 const intro = document.querySelector(".intro");
@@ -41,10 +40,10 @@ fetch(apiUrl).then((response) =>{
             imageAll.setAttribute("class","image")
             imageAll.src = imgeUrls[i-1];
             // image preload
-            imageAll.onload = function() {
-                console.log(123)
-                loadImage.style.display = "none";
-            };
+            // imageAll.onload = function() {
+            //     console.log(123)
+            //     loadImage.style.display = "none";
+            // };
             //
             images.appendChild(imageAll);     
         }   
