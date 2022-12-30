@@ -12,7 +12,7 @@ connection_pool = pooling.MySQLConnectionPool(pool_name = "pynative_pool",
                                               host = os.getenv("HOST"),
                                               user = os.getenv("MYSQL_USER"),                           
                                               database = os.getenv("DATABASE"),  
-                                              password = os.getenv("PASSWORD"),
+                                              password = os.getenv("PASSWORD"),#serect.MySQLPassword(),
                                               charset = "utf8")
 
 # ----------------- attraction 景點資料表---------------------- #
@@ -43,7 +43,7 @@ def get_attractions(page,keyword):
             results = cursor.fetchall() 
 
             for data in results:
-                data["images"] = json.loads(data["images"])
+                data["images"] = json.loads(data["images"]) 
                 trip_list.append(data)
             return trip_list          
     except Exception as e:
@@ -159,7 +159,8 @@ def update_user(username, user_id):
     finally:
         cursor.close()
         connection_object.close()
-        
+
+
 # ----------------- booking 行程資料表---------------------- #
 def select_booking(user_id):
     try:
@@ -233,7 +234,7 @@ def check_booking(user_id,booking_id):
         select = ("select * from booking where user_id=%s and id=%s")
         value = [user_id,booking_id]
         cursor.execute(select, value)
-        result = cursor.fetchone()    
+        result = cursor.fetchone() #< class 'list'>        
         return result
     except Exception as e:
         print(f"{e}:檢查預約行程失敗")
@@ -248,7 +249,7 @@ def delete_booking(**kwargs):
         connection_object = connection_pool.get_connection()
         cursor = connection_object.cursor()
         delete = ("delete from booking where ")
-        for key in kwargs:
+        for key in kwargs:          
             if type(kwargs[key]) == str:
                 delete = delete + f"{key}='{kwargs[key]}' and "
             else:
@@ -374,7 +375,7 @@ def update_order(status, order_number):
         value = [status, order_number]
         cursor.execute(update, value)
         connection_object.commit()
-        results = cursor.fetchone() 
+        results = cursor.fetchone()  
     except Exception as e:
         print(f"{e}:更新預定行程失敗")
         return None
