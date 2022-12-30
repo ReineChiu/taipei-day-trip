@@ -62,7 +62,8 @@ def del_booking():
             data = jwt.decode(token, os.getenv("JWT_SERECT_KEY"), algorithms="HS256")
             user_id = data["id"]
             b_id = request.json.get("choose")
-            delete_booking(user_id=user_id, booking_id=b_id)
+            b_id = int(b_id)
+            delete_booking(user_id=user_id, id=b_id)
 
             user_booking_data = select_booking(user_id=user_id)
 
