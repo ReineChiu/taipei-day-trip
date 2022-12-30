@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block static %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/member.css') }}">
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="frame">
+        <div class="member-info-zone">
+            <div class="member-info">
+                <div class="user-image">
+                    <div class="circle">
+                        <img id="upimg">
+                        <div class="circle-text"></div>
+                        <label class="file-btn">
+                        <input type="file" id="file-uploader" accept="image/*">
+                        <div class="icon">
+                            <i class="fa fa-photo"></i>
+                        </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="user-info">
+                    <div class="info-box">
+                        <div class="user-name-bar">
+                            <div class="user-name"></div>
+                            <div class="username-input"></div>
+                        </div>
+                        <div class="name-errormes"></div>
+                        <div class="user-email"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="record_zone">
+            <div class="search-zone">
+                <div class="search-order-bar">
+                    <span class="bar-name">查詢歷史訂單</span>
+                    <input type="search" id="order-number" placeholder="輸入訂單編號">
+                    <img class="search-image" src="{{ url_for('static', filename='image/icon_search.png') }}" alt="查詢">
+                </div>
+            </div>
+            <div class="error-zone">
+                <div class="error-text"></div>
+            </div>
+        </div>
+        <div class="show-record-zone">
+            <div class="show-record"></div>
+        </div>
+    </div>
+</main>
+<script derf src="{{ url_for('static', filename='js/member.js') }}"></script>
+{% endblock %}

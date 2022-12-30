@@ -1,9 +1,7 @@
-// ---------------- 全域變數 -------------------- //
-// 網頁載入時,顯示登入or登出鈕
 const logBtn = document.querySelector(".log-button");
 const btnLogin = document.querySelector(".btn-login");
 const btnLogout = document.querySelector(".btn-logout");
-// 點擊登入/註冊鈕
+const dropDown = document.querySelector(".dropdown") 
 const closeButton = document.querySelectorAll(".close-button");
 const dialogSignupButton = document.querySelector(".signup-button");
 const dialogLoginButton = document.querySelector(".login-button");
@@ -13,14 +11,12 @@ const dialog = document.querySelector(".dialog");
 
 const dialogLoginContent = document.querySelector(".dialog-login-content");
 const dialogSignupContent = document.querySelector(".dialog-signup-content");
-// 點擊登入=>註冊
 const showLogin = document.querySelector("#loginmessage");
 const loginMessage = document.createElement("div");
 const signup = document.querySelector(".dialog-signup-button");
-// 點擊登入帳戶紐
 const loginBtn = document.querySelector(".dialog-login-button");
-// 點擊預定行程
 const bookingTrip = document.querySelector(".booking");
+const memberCentre = document.querySelector(".member-centre");
 
 const checkUserUrl = '/api/user/auth';
 const userUrl = '/api/user';
@@ -35,7 +31,7 @@ window.onload = function() {
             return response.json();
         }).then((data) => {
             if (data.data != null){
-                btnLogout.style.display = "block";
+                dropDown.style.display = "block";
                 logBtn.style.display = "none";
             }else{
                 btnLogin.style.display = "block";
@@ -85,12 +81,12 @@ signup.addEventListener("click",() => {
             const signMessage = document.createElement("div");
             const tip = document.querySelector(".tip")
             const signsusses = document.querySelector(".signsusses")
-            while (showSign.hasChildNodes()){ //檢查node下是否有子元素
+            while (showSign.hasChildNodes()){ 
                 showSign.removeChild(showSign.firstChild);
             }
             if ("ok" in data){    
                 tip.style.display = "none";
-                signsusses.style.display = "block";        
+                signsusses.style.display = "block";     
             }else{
                 signMessage.setAttribute("class", "erroressage");
                 signMessage.textContent = "註冊失敗：" + data.message
@@ -115,7 +111,7 @@ loginBtn.addEventListener("click",() => {
         .then((response) => {
             return response.json();
         }).then((data) => {
-            while (showLogin.hasChildNodes()){ //檢查node下是否有子元素
+            while (showLogin.hasChildNodes()){ 
                 showLogin.removeChild(showLogin.firstChild);
             }
             if ("ok" in data){
@@ -145,7 +141,6 @@ btnLogout.addEventListener("click",() => {
 const frontPage = document.querySelector(".head-text")
 frontPage.addEventListener("click",() => {
     location.href = "/";
-    // window.location.replace("http://127.0.0.1:3000")
 })
 
 // ---------------------- 點擊預定行程 ----------------------- //
@@ -154,7 +149,7 @@ bookingTrip.addEventListener("click",() => {
         method : "GET",
         headers : {"content-Type":"application/json"}
         },)
-        .then((response) => {
+        .then(response => {
             return response.json();
         }).then((data) => {
             if (data.data != null){  
@@ -165,3 +160,16 @@ bookingTrip.addEventListener("click",() => {
             }
         })
 })  
+
+// ---------------------- 點擊會員中心 ----------------------- //
+const clickToCheckUser = async() => {
+    const res = await fetch(checkUserUrl);
+    const data = await res.json();
+    if (data.data != null){
+        location.replace(`/member?id=${data.data.id}`)
+    }else{
+        location.href = "/";
+    }
+}
+memberCentre.addEventListener("click", clickToCheckUser)
+
