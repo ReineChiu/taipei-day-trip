@@ -7,7 +7,7 @@ const direction = document.querySelector(".direction");
 
 const leftArrow = document.querySelector(".left-arrow");
 const rightArrow = document.querySelector(".right-arrow");
-let index = 0; //zIndex 索引
+let index = 0; 
 const circle = document.querySelector(".circle");
 
 const morning = document.getElementById("morning");
@@ -21,18 +21,19 @@ afternoon.addEventListener("click",function(){
 });
 
 
-let path = window.location.pathname; //取得照訪網站的路徑
+let path = window.location.pathname; 
 let apiUrl = `/api`+ path;
 
 fetch(apiUrl).then((response) =>{
+    console.log(response)
     return response.json();
 }).then((data) =>{
+    console.log(data)
     if ("ok" in data){
         const attraction = data.data;
         const imgeUrls = attraction.images;
         const loadImage = document.querySelector(".lds-dual-ring");
-        document.title = attraction.name;//自定義標題title值
-        // 取得所有照片連結 並分別加入zIndex//
+        document.title = attraction.name;
         for (let i=imgeUrls.length; i>0; i--){
             let imageAll = document.createElement("img");
             imageAll.style.zIndex = index;
@@ -40,10 +41,10 @@ fetch(apiUrl).then((response) =>{
             imageAll.setAttribute("class","image")
             imageAll.src = imgeUrls[i-1];
             // image preload
-            // imageAll.onload = function() {
-            //     console.log(123)
-            //     loadImage.style.display = "none";
-            // };
+            imageAll.onload = function() {
+                console.log(123)
+                loadImage.style.display = "none";
+            };
             //
             images.appendChild(imageAll);     
         }   
@@ -51,21 +52,10 @@ fetch(apiUrl).then((response) =>{
         for (let i=0; i<imgeUrls.length; i++){
             let li = document.createElement("li");
             circle.appendChild(li)
-            //點原點切換圖片(可以不使用)
-            //console.log(circle.children)
-            // li.setAttribute("index", i)//index自定義屬性
-            // li.addEventListener("click", function(){
-            //     for(let j=0; j<circle.children.length; j++){ 
-            //         circle.children[j].className = "";
-            //     } 
-            // this.className = "current";
-            // index = this.getAttribute("index");
-            //image.src = imgeUrls[index];
         }
-        // 點Arrow，切換上下張
         let image = document.querySelectorAll(".image");
         let circleList = document.querySelectorAll("li")
-        circleList[0].className = "current";//設定首圖，第一個原點狀態
+        circleList[0].className = "current";
         //  
         for (let i=0; i<imgeUrls.length; i++){
             if (i != imgeUrls.length-1){
@@ -75,8 +65,8 @@ fetch(apiUrl).then((response) =>{
             }
         }
 
-        let page = 0; //圓點的索引
-        let item = imgeUrls.length - 1; //圖片索引
+        let page = 0; 
+        let item = imgeUrls.length - 1; 
         leftArrow.addEventListener("click",function(){
             item++;
             if (item >imgeUrls.length - 1){
@@ -89,7 +79,7 @@ fetch(apiUrl).then((response) =>{
                     image[item].style.opacity = 1; 
                 }
             }
-            //圓點隨圖片改動
+            
             page--;
             if (page <0){
                 page = imgeUrls.length- 1;   
@@ -121,7 +111,7 @@ fetch(apiUrl).then((response) =>{
             }  
         })
 
-        //第一個section，profile資訊
+        
         const name = document.createElement("div");
         name.setAttribute("class","name");
         name.textContent = attraction.name;
@@ -135,7 +125,7 @@ fetch(apiUrl).then((response) =>{
         nameCatMrt.appendChild(name);
         nameCatMrt.appendChild(cateAtMrt);
 
-        //====== 第二個section-infors ====//
+        
         const description = document.createElement("div");
         description.setAttribute("class","description");
         description.textContent = attraction.description;
@@ -159,7 +149,7 @@ const errorHint = document.createElement("div")
 
 
 chooseDate.addEventListener("click", () => {
-    while (dateErrHint.hasChildNodes()){ //檢查node下是否有子元素
+    while (dateErrHint.hasChildNodes()){ 
         dateErrHint.removeChild(dateErrHint.firstChild);
     }    
 })
@@ -187,7 +177,6 @@ bookingCheck.addEventListener("click", () => {
 
     let dateTime=new Date();
     dateTime.setDate(dateTime.getDate()+1);
-    // dateTime=new Date(dateTime);
     let date = new Date(dateTime);
     let y = date.getFullYear();
     let mh = (date.getMonth()+1);
