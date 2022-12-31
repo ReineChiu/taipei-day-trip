@@ -25,10 +25,8 @@ let path = window.location.pathname;
 let apiUrl = `/api`+ path;
 
 fetch(apiUrl).then((response) =>{
-    console.log(response)
     return response.json();
 }).then((data) =>{
-    console.log(data)
     if ("ok" in data){
         const attraction = data.data;
         const imgeUrls = attraction.images;
@@ -42,7 +40,6 @@ fetch(apiUrl).then((response) =>{
             imageAll.src = imgeUrls[i-1];
             // image preload
             imageAll.onload = function() {
-                console.log(123)
                 loadImage.style.display = "none";
             };
             //
@@ -53,6 +50,7 @@ fetch(apiUrl).then((response) =>{
             let li = document.createElement("li");
             circle.appendChild(li)
         }
+        // 點Arrow，切換上下張
         let image = document.querySelectorAll(".image");
         let circleList = document.querySelectorAll("li")
         circleList[0].className = "current";
@@ -79,7 +77,7 @@ fetch(apiUrl).then((response) =>{
                     image[item].style.opacity = 1; 
                 }
             }
-            
+            //圓點隨圖片改動
             page--;
             if (page <0){
                 page = imgeUrls.length- 1;   
@@ -111,7 +109,6 @@ fetch(apiUrl).then((response) =>{
             }  
         })
 
-        
         const name = document.createElement("div");
         name.setAttribute("class","name");
         name.textContent = attraction.name;
@@ -125,7 +122,6 @@ fetch(apiUrl).then((response) =>{
         nameCatMrt.appendChild(name);
         nameCatMrt.appendChild(cateAtMrt);
 
-        
         const description = document.createElement("div");
         description.setAttribute("class","description");
         description.textContent = attraction.description;
@@ -149,7 +145,7 @@ const errorHint = document.createElement("div")
 
 
 chooseDate.addEventListener("click", () => {
-    while (dateErrHint.hasChildNodes()){ 
+    while (dateErrHint.hasChildNodes()){ //檢查node下是否有子元素
         dateErrHint.removeChild(dateErrHint.firstChild);
     }    
 })
@@ -159,7 +155,7 @@ const bookingCheck = document.querySelector(".submit");
 bookingCheck.addEventListener("click", () => {
     const dateInput = document.getElementById("date").value;
 
-    const timeInput = document.querySelector('input[name="time"]:checked').value;//或是跑回圈？
+    const timeInput = document.querySelector('input[name="time"]:checked').value;
     let priceInput = "";
     if (timeInput === "morning"){
         priceInput = 2000;
@@ -167,7 +163,7 @@ bookingCheck.addEventListener("click", () => {
         priceInput = 2500;
     }
 
-    const attractionValue = path.split('/').slice(-1).toString()//取得照訪網站字串最後一個值，並轉為string
+    const attractionValue = path.split('/').slice(-1).toString()
     const bookingData = {
         date : dateInput,
         time : timeInput,
@@ -177,12 +173,12 @@ bookingCheck.addEventListener("click", () => {
 
     let dateTime=new Date();
     dateTime.setDate(dateTime.getDate()+1);
+    dateTime=new Date(dateTime);
     let date = new Date(dateTime);
     let y = date.getFullYear();
     let mh = (date.getMonth()+1);
     let d = date.getDate();
     let curDate = (`${y}-${mh}-${d}`);
-
 
     if (dateInput.length == 0){
         errorHint.textContent = "*必填";
@@ -190,7 +186,7 @@ bookingCheck.addEventListener("click", () => {
         dateErrHint.appendChild(errorHint);
         dateErrHint.style.display = "block";   
     }
-    if (dateInput < curDate){
+    if ((Date.parse(dateInput)).valueOf() < (Date.parse(dateTime)).valueOf()){
         errorHint.textContent = "請選擇"+`${curDate}`+"之後的日期"
         errorHint.classList.add("error-hint");
         dateErrHint.appendChild(errorHint);
