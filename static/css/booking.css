@@ -1,9 +1,5 @@
 
-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 .no-reservation{
     display: none;
     justify-content: center;
@@ -14,6 +10,38 @@ section {
 .have-reservation{
     display: none;
 }
+
+.lds-dual-ring {
+    display: inline-block;
+    transform: translate(140px, 140px);
+    position: absolute;
+    z-index: 40;
+    width: 80px;
+    height: 80px;
+}
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    justify-content: center;
+    align-items: center;
+
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    border-color: #448899 transparent #448899 transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
 .notice{
     display: flex;
     justify-content: center;
@@ -30,10 +58,15 @@ section {
     justify-content: center;
 }
 .booking-trip{
-    display: flex;
-    width: 980px;
+    display: grid;
+    grid-template-columns: repeat(1, 980px);
     padding: 0 10px 0 10px;
-    margin: 35px 0 40px 0;
+    margin: 35px 0 0 0;
+}
+.trip-box{
+    display: flex;
+    position: relative;
+    margin-bottom: 40px;
 }
 .trip-site-img{
     width: 266px;
@@ -58,30 +91,28 @@ section {
 .site-title{
     font-weight: 700;
     color: #448899;
-    margin-bottom: 25px;
+    margin-top: 5px;
 }
 .garbage-button{
     position: absolute;
     z-index: 1;
-    top: -8px;
+    top: 0;
     right: 0;
     height: 30px;
     border-style:none;
     background-color: #FFFFFF;
     cursor: pointer;
 }
-.img-garbage{
-    width: 26px;
-    height: 26px;
-}
+
 .all-mes{   
     color: #666666;
     margin-top: 15px;
 }
 .mes-head{
-    font-weight: 700;   
+    font-weight: 700;  
+    color: #666666;
+   
 }
-
 
 hr{
     width: 1200px;
@@ -152,6 +183,7 @@ input:focus{
     align-items: center;
     margin-bottom: 15px;
 }
+
 .tpfield{
     width: 220px;
     height: 32px;
@@ -211,21 +243,19 @@ input:focus{
     .notice-text{    
         width: 96%;
     }
+    .booking-zone{
+        display: block;
+    }    
     .booking-trip{
-        width: 96%;
-    }
-    .trip-site-img{
-        width: 43%;
+        grid-template-columns: repeat(1, 100%);   
     }
     .trip-site-message{
-        width: 100%;
+        width: 50%;
     }
 }
 @media (max-width:500px){
-    .booking-trip{
-        display: block;
-        width: 100%;
-        padding: 0;
+    .trip-box{
+        display:block; 
     }
     .trip-site-img{
         width: 100%;
@@ -236,10 +266,11 @@ input:focus{
         margin: 0;
     }
     .trip-site-message{
+        width: 100%;
         margin: 20px 5px 0 5px;
     }
     .garbage-button{
-        top: 180px;
+        top: 380px;
         right: 0;
     }
 }

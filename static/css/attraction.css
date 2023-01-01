@@ -171,6 +171,13 @@ input[type=date]{
     height:24px;
     margin-right: 10px;
 }
+.date-error-hint{
+    display: none;
+    margin-left: 10px;
+}
+.error-hint{
+    color: #8b0000;
+}
 .time{
     padding: 0 0 15px 20px;
 }
@@ -211,7 +218,7 @@ input[type="radio"]:checked+label:before {
 }
 .guide{
     display: flex;
-    padding: 0 0 25px 20px;
+    padding: 0 0 15px 20px;
 }
 .submit{
     padding: 10px 20px;
@@ -221,6 +228,7 @@ input[type="radio"]:checked+label:before {
     font-size: 19px;
     color: #FFFFFF;
     background-color: #448899;
+    cursor: pointer;
 }
 hr{
     width: 1200px;
@@ -285,6 +293,11 @@ hr{
     }
     .description{
         width: 100%;
+    }
+}
+@media (max-width:825px){
+    .order-box{
+        height: 310px;
     }
 }
 @media (max-width:700px){

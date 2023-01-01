@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
 import os, json, jwt, requests
-from mysql_connect import select_booking, insert_order, select_order, update_order, delete_booking
+from mysql_connect import select_booking, insert_order, select_order, update_order, delete_booking, get_totalprice
 from datetime import datetime
-from utils.regex import verify_name, verify_email, verify_password, verify_phone
+from utils.regex import verify_name, verify_email, verify_password, verify_phone, verify_date
 
 api_order = Blueprint("api_order", __name__)
 
@@ -14,12 +14,6 @@ def creat_orders():
         contact_name = request_data["contact_name"]
         contact_email = request_data["contact_email"]
         contact_phone = request_data["contact_phone"]
-        
-        result = request_data["data"]
-        attraction_id = result["trip"]["attraction"]["id"]
-        date = result["trip"]["date"]
-        time = result["trip"]["time"]
-        price = result["price"]
 
         if len(contact_name) == 0 or len(contact_email) == 0 or len(contact_phone) == 0:
             return ({"error":True, "message": "姓名、信箱、手機號不可空白"},400)
@@ -39,18 +33,31 @@ def creat_orders():
             currentDate = currentDateAndTime.strftime("%Y%m%d%H%M%S")
             num = str(user_id).zfill(3)
             order_number = f"TDT{currentDate}-{num}"
-            
-            insert_order(
-                attraction_id = attraction_id, user_id = user_id,
-                contact_person = contact_name, contact_email = contact_email,
-                phone = contact_phone, total_price = price, date = date, 
-                time = time, order_number = order_number, status = 1
-            )
-            check_order = select_order(order_number=order_number,user_id=user_id)            
+
+            booking_data = select_booking(user_id=user_id)
+            for result in booking_data:
+                attraction_id = result["attraction_id"]
+                date = result["date"]
+                time = result["time"]
+                price = result["price"]
+
+                dateRegex = verify_date(date=str(date))
+
+                if not dateRegex:
+                    return ({"error":True, "message": "日期資料格式錯誤"},400)
+
+                insert_order(
+                    attraction_id = attraction_id, user_id = user_id,
+                    contact_person = contact_name, contact_email = contact_email,
+                    phone = contact_phone, price = price, date = str(date), 
+                    time = time, order_number = order_number, status = 1
+                )
+            check_order = select_order(order_number=order_number,user_id=user_id)
             if not check_order:
                 return ({"error":True, "message":"訂單建立失敗"},400) 
 
-            in_ordernumber = check_order["order_number"]
+            in_ordernumber = check_order[0]["order_number"]
+            total_price = get_totalprice(user_id=user_id,order_number=in_ordernumber)
 
             # 銀行串接(測試環境) 
             primeURL = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
@@ -63,7 +70,7 @@ def creat_orders():
                 "partner_key": os.getenv("PARTNER_KEY"),
                 "merchant_id": "reineTTT2_ESUN",
                 "details":"TapPay Test",
-                "amount": price,
+                "amount": total_price,
                 "cardholder": {
                     "phone_number": contact_phone,
                     "name": contact_name,
@@ -77,29 +84,33 @@ def creat_orders():
 
             pay_res = requests.post(primeURL, headers = headers, json = pay_info, timeout = 30)
             data = pay_res.json()
+
             if data["status"] == 0:
                 update_order(status = data["status"], order_number = in_ordernumber)
 
-                delete_booking(user_id)
+                delete_booking(user_id=user_id)
 
                 renew_order = select_order(order_number = in_ordernumber,user_id = user_id)
-                order_data = {
-                    "number" : renew_order["order_number"],
-                    "payment" : {
-                        "status" : renew_order["status"],
-                        "message" :"付款成功"
+
+                for data in renew_order:
+                    order_data = {
+                        "number" : data["order_number"],
+                        "payment" : {
+                            "status" : data["status"],
+                            "message" :"付款成功"
+                        }
                     }
-                }
-                return ({"data":order_data},200)
+                    return ({"data":order_data},200)
             else:
-                order_data = {
-                    "number" : renew_order["order_number"],
-                    "payment" : {
-                        "status" :renew_order["status"],
-                        "message" :"付款失敗"
+                for data in renew_order:
+                    order_data = {
+                        "number" : data["order_number"],
+                        "payment" : {
+                            "status" :data["status"],
+                            "message" :"付款失敗"
+                        }
                     }
-                }
-                return ({"data":order_data},200)    
+                    return ({"data":order_data},200)    
         else:
             return ({"error":True, "message":"未登入系統，拒絕存取"},403)
     except Exception as e:
@@ -115,34 +126,36 @@ def get_order(orderNumber):
         if token:
             data = jwt.decode(token, os.getenv("JWT_SERECT_KEY"), algorithms="HS256")
             user_id = data["id"]
-            
+
             renew_order = select_order(order_number=orderNumber ,user_id=user_id)
             if renew_order:
-                data = {
-                    "number": renew_order["order_number"],
-                    "price": renew_order["total_price"],
-                    "trip": {
-                        "attraction": {
-                            "id": renew_order["attraction_id"],
-                            "name": renew_order["name"],
-                            "address": renew_order["address"],
-                            "image": json.loads(renew_order["images"])[0]
-                        },
-                        "date": renew_order["date"],
-                        "time": renew_order["time"],
-                    },
-                    "contact": {
-                        "name": renew_order["contact_person"],
-                        "email": renew_order["contact_email"],
-                        "phone": renew_order["phone"],
-                    },
-                    "status": renew_order["status"]
-                }
+                for result in renew_order:
+                    data = {
+                        "number": result["order_number"],
+                        "name": result["contact_person"]
+                    }
                 return ({"data":data},200)
             else:
                 return ({"data":None, "message":"沒有資料"},200)
         else:
             return ({"error":True, "message":"未登入系統，拒絕存取"},403)
+    except Exception as e:
+        print(f"{e}:取得訂單資訊發生錯誤")
+        return ({"error":True, "message":"取得訂單資訊過程發生錯誤"},500)
+
+@api_order.route("/order", methods=["POST"])
+def success_order():
+    try:
+        token = request.cookies.get("token")
+        if token:
+            data = jwt.decode(token, os.getenv("JWT_SERECT_KEY"), algorithms="HS256")
+            user_id = data["id"]
+            order_number = request.json.get("number")
+
+            get_success_order = select_order(user_id=user_id, order_number=order_number, status=0)
+            return ({"data":get_success_order},200)
+        else:
+            return ({"data":None},200)
     except Exception as e:
         print(f"{e}:取得訂單資訊發生錯誤")
         return ({"error":True, "message":"取得訂單資訊過程發生錯誤"},500)

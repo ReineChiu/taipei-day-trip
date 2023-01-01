@@ -7,39 +7,15 @@
 {% endblock %}
 
 {% block content %}
-<sention>
+<main>
     <div class="notice">
         <div class="notice-text">您好，<span class="username"></span>，待預定的行程如下：</div>   
     </div>
     <div class="no-reservation">目前沒有預定任何行程</div>
     <div class="have-reservation">
-        <div class="booking-zone">
-            <div class="booking-trip">
-                <div class="trip-site-img"></div>
-                <div class="trip-site-message">
-                    <div class="site-title">臺北一日遊：<span class="attraction-name"></span>
-                        <button class="garbage-button">
-                            <img class="img-garbage" src="{{ url_for('static', filename='image/icon_delete.png') }}" alt="">
-                        </button>
-                    </div>
-                    <div class="all-mes">
-                        <span class="mes-head">日期：</span>
-                        <span class="booking-date"></span>
-                    </div>
-                    <div class="all-mes">
-                        <span class="mes-head">時間：</span>
-                        <span class="booking-time">根據選擇時間</span>
-                    </div>
-                    <div class="all-mes">
-                        <span class="mes-head">費用：</span>
-                        <span class="booking-price">根據選擇費用</span>
-                    </div>
-                    <div class="all-mes">
-                        <span class="mes-head">地點：</span>
-                        <span class="booking-address">地址</span>
-                    </div>
-                </div>   
-            </div>
+        <div class="lds-dual-ring"></div>
+        <div class="booking-zone"> 
+            <div class="booking-trip"></div>
         </div>
         <hr>
         <div class="zone">
@@ -98,7 +74,7 @@
             </div>
         </div>
     </div>
-</sention>
+</main>
 <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
 <script derf src="{{ url_for('static', filename='js/booking.js') }}"></script>
 {% endblock %}

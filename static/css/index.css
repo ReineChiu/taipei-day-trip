@@ -137,6 +137,9 @@ input[type=text]{
     transform: rotate(360deg);
 }
 }
+.asdload{
+    color:#66AABB;
+}
 
 
 .attraction{
@@ -195,17 +198,11 @@ input[type=text]{
     .main-content{
         grid-template-columns: repeat(2, 45%);
     }
-    .head{
-        width: 93%;
-    }
     .slogan{
         width: 93%;
     }
 }
 @media (max-width:600px){
-    .head{
-        width: 94%;
-    }
     .slogan{
         width: 80%;
     }
@@ -224,13 +221,7 @@ input[type=text]{
         grid-template-columns: 95%;
     }   
 }
-@media (max-width:360px){
-    .head{
-        width: 100%;
-    }
-    .button{
-        margin: 0;
-    }
+@media (max-width:370px){
     .slogan{
         width: 96%;
     }

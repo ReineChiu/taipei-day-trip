@@ -9,6 +9,7 @@ const orderNum = document.querySelector(".order-number");
 let Url = location.href;
 let getUrlStr = new URL(Url)
 let orderNumber = getUrlStr.searchParams.get("number");
+console.log(orderNumber)
 const getOrderUrl = `/api/order/${orderNumber}`;
 
 function getData(){
@@ -19,17 +20,14 @@ function getData(){
         return response.json();
     }).then((data) => {
         if(data.data != null){
-            username.textContent = data.data.contact.name;
+            username.textContent = data.data.name;
             orderNum.textContent = data.data.number;
         }
         else{
             errorPage.style.display = "block";
             successPage.style.display = "none";
-            username.textContent = data.data.contact.name;
+            username.textContent = data.data.name;
         }
-    })
-    .catch((fail) => {
-        location.href = "/";
     })
 }
 getData()

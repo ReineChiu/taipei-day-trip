@@ -34,6 +34,15 @@ def thankyou():
 	return render_template("thankyou.html")
 
 
+@app.route("/member")
+def member():
+	return render_template("member.html")
+@app.errorhandler(404)
+def page_not_found(e):
+	return render_template("404.html"), 404
+
+
+
 if __name__ =='__main__':	
 	app.run(host="0.0.0.0", port=3000)
 	
