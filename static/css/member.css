@@ -53,13 +53,14 @@ input[type="file"]{
     z-index: 3;
     bottom: 20px;
     right: 10px;
+    cursor: pointer;
 }
 .upimg{
     position:absolute;
     z-index: 2;
-    width: 180px;
-    height: 180px;
-    border-radius: 90px;  
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;  
     overflow: hidden;
 }
 

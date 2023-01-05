@@ -1,7 +1,7 @@
 from flask import Blueprint, request, make_response
 import os, json, jwt, datetime, bcrypt
 from dotenv import load_dotenv
-from mysql_connect import select_user, insert_user
+from mysql_connect import select_user, insert_user, update_user
 from utils.regex import verify_name, verify_email, verify_password
 
 load_dotenv()
@@ -49,7 +49,13 @@ def check_user():
         if token:
             data = jwt.decode(token, os.getenv("JWT_SERECT_KEY"), algorithms="HS256")
             data.pop("exp")
-            return ({"data":data},200)
+            user_id = data["id"]
+            check_userdata = select_user(id=user_id)
+            user_data = {
+                "username" : check_userdata["username"],
+                "email": check_userdata["email"]
+            }
+            return ({"data":check_userdata},200)
         else:
             return ({"data":None},200)
     except Exception as e:
@@ -100,4 +106,35 @@ def logout():
     except Exception as e:
         print(f"{e}:登出發生錯誤")
         return ({"error":True, "message":"登出過程發生錯誤"},500)
+
+@api_auth.route("/user/auth", methods=["PATCH"])
+def update():
+    try:
+        new_name = request.json.get("newname")
+        nameRegex = verify_name(username = new_name)
+        if not nameRegex:
+            return ({"error":True, "message": "姓名輸入格式錯誤"},400)
+        
+        token = request.cookies.get("token")
+        if token:
+            data = jwt.decode(token, os.getenv("JWT_SERECT_KEY"), algorithms="HS256")
+            user_id = data["id"]
+            # 到user資料庫更新資訊
+            update_user(username=new_name, user_id=user_id)
+            check_newname = select_user(username=new_name, id=user_id)
+            # print(check_newname)
+            if check_newname:
+                data = {
+                    "id" : check_newname["id"],
+                    "newname" : check_newname["username"]
+                }
+                return ({"ok":True, "data":data},200)
+            else:
+                return ({"error":True, "data":None},200)
+        else:
+            return ({"error":True, "message":"未登入系統，拒絕存取"},403)
+    except Exception as e:
+        print(f"{e}:更新姓名發生錯誤")
+        return ({"error":True, "message":"更新姓名過程發生錯誤"},500)
+
 
