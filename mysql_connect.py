@@ -161,6 +161,7 @@ def update_user(username, user_id):
         connection_object.close()
 
 
+
 # ----------------- booking 行程資料表---------------------- #
 def select_booking(user_id):
     try:
@@ -234,7 +235,7 @@ def check_booking(user_id,booking_id):
         select = ("select * from booking where user_id=%s and id=%s")
         value = [user_id,booking_id]
         cursor.execute(select, value)
-        result = cursor.fetchone() #< class 'list'>        
+        result = cursor.fetchone() 
         return result
     except Exception as e:
         print(f"{e}:檢查預約行程失敗")
@@ -375,10 +376,83 @@ def update_order(status, order_number):
         value = [status, order_number]
         cursor.execute(update, value)
         connection_object.commit()
-        results = cursor.fetchone()  
+        results = cursor.fetchone() 
     except Exception as e:
         print(f"{e}:更新預定行程失敗")
         return None
     finally:
         cursor.close()
         connection_object.close()
+
+
+
+# ----------------- files 上傳檔案資料表---------------------- #
+def select_file(**kwargs):
+    try:
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor(dictionary=True)
+
+        select = ("select * from files where ")
+        for key in kwargs:
+            select = select + f"{key}= '{kwargs[key]}' and "
+        select = select[:-5]
+        cursor.execute(select)
+        account = cursor.fetchone()
+        if account:
+            return account
+        else:
+            print("no account")
+            return None
+    except Exception as e:
+        print(f"{e}:搜尋檔案失敗")
+        return None
+    finally:
+        cursor.close()
+        connection_object.close()
+
+
+def update_file(url,user_id):
+    try:
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor(dictionary=True)
+        update = ("UPDATE files SET url=%s where user_id=%s;")
+        value = [url, user_id]
+        cursor.execute(update, value)
+        connection_object.commit()
+        results = cursor.fetchone()
+        return result
+    except Exception as e:
+        print(f"{e}:更新檔案失敗")
+        return None
+    finally:
+        cursor.close()
+        connection_object.close()
+
+def insert_file(**kwargs):
+    try:
+        insert_col = ""
+        insert_val = ""
+        for key in kwargs:
+            insert_col = insert_col + f"{key}, "
+            if type(kwargs[key]) == str:
+                insert_val = insert_val + f"'{kwargs[key]}', "
+            else:
+                insert_val = insert_val + f"{kwargs[key]}, "
+        insert_col = insert_col[:-2]
+        insert_val = insert_val[:-2]
+        connection_object = connection_pool.get_connection()
+        cursor = connection_object.cursor()
+        
+        insert = f"""
+                INSERT INTO files({insert_col})
+                VALUES({insert_val})
+                """
+        cursor.execute(insert)
+        connection_object.commit()
+    except Exception as e:
+        print(f"{e}:新增檔案失敗")
+        return None
+    finally:
+        cursor.close()
+        connection_object.close()
+

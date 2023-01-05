@@ -5,27 +5,38 @@ const userEmail = document.querySelector(".user-email");
 
 
 const searchOrder = document.querySelector(".search-image");
+// 使用者圖像
+const upimg = document.getElementById("upimg");
 
-function getUserData(){
-    fetch('/api/user/auth',{
-        method : "GET",
-        headers : {"content-Type":"application/json"}
-    }).then((response) => {
-        return response.json();
-    }).then((data) => {
-        if (data.data != null){
-            userLogo.textContent = data.data.username.substr(0,1);
-            userName.textContent = data.data.username;
-            userEmail.textContent = data.data.email;
-        }else{
-            location.href = "/";
-        }
-    })
-    .catch((fail) => {
+async function getData() {
+    const options1 = {
+        method: "GET",
+        headers:{"content-Type":"application/json"}
+    }
+    const response1 = await fetch('/api/user/auth',options1);
+    const data1 = await response1.json();
+    if (data1.data != null){
+        userLogo.textContent = data1.data.username.substr(0,1);
+        userName.textContent = data1.data.username;
+        userEmail.textContent = data1.data.email;
+    }
+    else{
         location.href = "/";
-    })
+    }
+
+    const options2 = {
+        method: "GET",
+        headers:{"content-Type":"application/json"}
+    }
+    const response2 = await fetch('/api/upload',options2);
+    const data2 = await response2.json();
+    if (data2.data != null){
+        upimg.src = window.location.origin +"/"+data2.data.url;
+        upimg.classList.add("upimg");
+    }
+
 }
-getUserData()
+getData()
 
 const checkNum = document.getElementById('order-number');
 const errorMes = document.querySelector(".error-text")
@@ -161,7 +172,6 @@ searchOrder.addEventListener("click", () =>{
             }else{
                 const recordBox = document.createElement("div");
                 recordBox.textContent = orderInput + " 查無該訂單資訊";
-                recordBox.classList.add("record-top-mes");
                 showRecord.appendChild(recordBox);
 
             }
@@ -185,6 +195,8 @@ sendNewName.classList.add("send-new-name");
 sendNewName.textContent = "儲存";
 
 
+
+// 點選 名字時 出現輸入框 ＋ (<-)
 userName.addEventListener("click", () =>{
     while (usernameInput.hasChildNodes()){ 
         usernameInput.removeChild(usernameInput.firstChild);
@@ -240,13 +252,25 @@ cancel.addEventListener("click", () =>{
 
 // 圖片上傳預覽
 const fileUploader = document.querySelector("#file-uploader");
+
 fileUploader.addEventListener("change", (e) => {
+    let file = e.target.files[0]
     let reader = new FileReader();
     reader.onload = function(){
-       let upimg = document.getElementById("upimg");
-       upimg.src = reader.result;
-       upimg.classList.add("upimg");
+    upimg.src = reader.result;
+    upimg.classList.add("upimg");
     };
     reader.readAsDataURL(e.target.files[0])
-})
 
+    let form = new FormData();    
+    form.append('image',file)
+    fetch('/api/upload',{
+        method : "PUT",
+        body : form
+    },)
+    .then((response) => {
+        return response.json();
+    }).then((data) => {
+    })
+    
+})
