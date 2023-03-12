@@ -1,6 +1,6 @@
 # <font color=#66AABB>Taipei-day-trip</font>
 ## DEMO  
----  
+
 ![Alt text](static/image/preload.gif)  
 ![Alt text](static/image/photo.gif)  
 
@@ -17,7 +17,7 @@
 [Database Schema](#database-schema)
 
 ## Main Features  
----
+
 - Member system, login and signup(bcrypt).
 - Use keyword to search for related attractions.
 - Responsive Web Design.
@@ -28,7 +28,7 @@
 - MVC
 
 ## Backend Technique
----
+
 ### Environment
 - Python
   - dotenv 
@@ -44,19 +44,19 @@
 - Git / GitHub
 
 ## Frontend Technique
----
+
 - HTML
 - CSS
 - Use  **<font color=#66AABB>Javascript</font>** to build infinite Scroll, Lazing Loading and photo carousel.   
 ## Third-party
----  
+
 - Adapt Third-Party Payment System, the **<font color=#66AABB>TapPay</font>**.
 
 ## Architecture
----
+
 - Server Architecture
 ![Alt text](static/image/arichite.png)
 
 ## Database Schema
----
+
 ![Alt text](static/image/databases.png)
