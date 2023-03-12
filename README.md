@@ -55,7 +55,7 @@
 ## Architecture
 ---
 - Server Architecture
- ![Alt text](static/image/%E6%88%AA%E5%9C%96%202023-03-07%20%E4%B8%8B%E5%8D%8810.54.08.png)
+![Alt text](static/image/arichite.png)
 
 ## Database Schema
 ---
