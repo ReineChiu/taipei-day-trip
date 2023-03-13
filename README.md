@@ -1,8 +1,8 @@
 # <font color=#66AABB>Taipei-day-trip</font>
 ## DEMO  
 
-![Alt text](static/image/preload.gif)  
-![Alt text](static/image/photo.gif)  
+![Alt text](static/image/preload.gif)
+![Alt text](static/image/photo.gif)
 
 [Main Features](#main-features)  
 [Backend Technique](#backend-technique)
